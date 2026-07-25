@@ -1,0 +1,258 @@
+# 06 — Architecture Decision Records (ADR)
+
+**Purpose:** Numbered decisions that bind implementation. Locked documentation references these ADRs.
+
+**Related:** [00-CONSTITUTION](00-CONSTITUTION.md) · [02-architecture](02-architecture.md) · [16-ai-rules](16-ai-rules.md) · [21-DOCUMENTATION-STATUS](21-DOCUMENTATION-STATUS.md)
+
+---
+
+## ADR format (mandatory)
+
+Every ADR must include:
+
+| Field | Meaning |
+|-------|---------|
+| **Decision** | What we chose |
+| **Reason** | Why |
+| **Alternative** | What we rejected |
+| **Trade-offs** | Costs of the choice |
+| **Future Impact** | What this locks in later |
+| **Status** | `Proposed` · `Accepted` · `Superseded` · `Deprecated` |
+
+Only **Accepted** ADRs bind implementation. Superseding requires a new ADR that references the old one.
+
+---
+
+## Table of contents
+
+1. [ADR-001](#adr-001-bootstrap-over-tailwind)
+2. [ADR-002](#adr-002-manual-auth-instead-of-breeze-blade)
+3. [ADR-003](#adr-003-admin-gate-with-is_admin--google-allowlist)
+4. [ADR-004](#adr-004-settings-key-value-with-cache)
+5. [ADR-005](#adr-005-markdown-for-long-form-content)
+6. [ADR-006](#adr-006-no-repository-pattern)
+7. [ADR-007](#adr-007-no-service-layer-by-default)
+8. [ADR-008](#adr-008-json-tech_stack-on-projects)
+9. [ADR-009](#adr-009-soft-deletes-only-on-major-content)
+10. [ADR-010](#adr-010-light-theme-only-for-v1)
+11. [ADR-011](#adr-011-split-web-and-admin-route-files)
+12. [ADR-012](#adr-012-no-filament--nova)
+13. [ADR-013](#adr-013-skill-category-as-string)
+
+---
+
+## ADR-001 Bootstrap over Tailwind
+
+**Decision:** Use Bootstrap 5 + Bootstrap Icons as the only UI framework.
+
+**Reason:** Single familiar component system for public and admin. Skeleton Tailwind would force dual systems.
+
+**Alternative:** Keep Tailwind; use Filament for admin.
+
+**Trade-offs:** Less utility-first customization; theme carefully via tokens.
+
+**Future Impact:** All UI assumes Bootstrap. Tailwind later requires a superseding ADR.
+
+**Status:** Accepted
+
+---
+
+## ADR-002 Manual auth instead of Breeze Blade
+
+**Decision:** Manual login UI + Socialite Google. Do not install Breeze Blade.
+
+**Reason:** Breeze Blade is Tailwind-oriented; restyling wastes time.
+
+**Alternative:** Breeze then strip Tailwind; laravel/ui.
+
+**Trade-offs:** Slightly more auth boilerplate once.
+
+**Future Impact:** Password reset can be added without Breeze.
+
+**Status:** Accepted
+
+---
+
+## ADR-003 Admin gate with is_admin + Google allowlist
+
+**Decision:** `/admin` requires `auth` + `EnsureUserIsAdmin`. Google email must match allowlist. No registration.
+
+**Reason:** Authentication ≠ authorization.
+
+**Alternative:** Spatie Permission; env-only gate.
+
+**Trade-offs:** Extra `is_admin` column; never mass-assign it.
+
+**Future Impact:** Second admin via flag + allowlist expansion possible.
+
+**Status:** Accepted
+
+---
+
+## ADR-004 Settings key-value with cache
+
+**Decision:** `settings` key-value table; cache map; bust on update.
+
+**Reason:** Avoid migrations for copy/SEO strings; settings hit every page.
+
+**Alternative:** Wide single-row profile table; config files.
+
+**Trade-offs:** Weaker column typing; validate known keys in admin.
+
+**Future Impact:** Optional `type` column later.
+
+**Status:** Accepted
+
+---
+
+## ADR-005 Markdown for long-form content
+
+**Decision:** Store long-form as Markdown; render via Laravel Markdown helpers.
+
+**Reason:** Safer than raw HTML; enough for a personal site.
+
+**Alternative:** Rich HTML editor.
+
+**Trade-offs:** Less layout control.
+
+**Future Impact:** Controlled HTML subset only via new ADR.
+
+**Status:** Accepted
+
+---
+
+## ADR-006 No Repository Pattern
+
+**Decision:** Do not create repositories.
+
+**Reason:** Eloquent is sufficient persistence API.
+
+**Alternative:** Repository per model.
+
+**Trade-offs:** Controllers use Eloquent directly.
+
+**Future Impact:** Revisit if a second data source appears.
+
+**Status:** Accepted
+
+---
+
+## ADR-007 No Service Layer by default
+
+**Decision:** No `app/Services` unless duplication is real and a new ADR approves a specific service.
+
+**Reason:** Premature services become dumpsters.
+
+**Alternative:** Services for every write.
+
+**Trade-offs:** Controllers may briefly hold multi-step writes (e.g. resume activation).
+
+**Future Impact:** Image processing / complex transactions may get approved services later.
+
+**Status:** Accepted
+
+---
+
+## ADR-008 JSON tech_stack on projects
+
+**Decision:** `projects.tech_stack` as JSON string array.
+
+**Reason:** No tag pages in v1.
+
+**Alternative:** tags + pivot.
+
+**Trade-offs:** Harder “all Laravel projects” queries.
+
+**Future Impact:** Migrate to tags if needed.
+
+**Status:** Accepted
+
+---
+
+## ADR-009 Soft deletes only on major content
+
+**Decision:** Soft delete `projects`, `blog_posts`, `experiences` only.
+
+**Reason:** Undo where content is costly; skip tiny lists.
+
+**Alternative:** Soft delete everything.
+
+**Trade-offs:** Inconsistent restore UX (documented).
+
+**Future Impact:** Can enable more SoftDeletes later.
+
+**Status:** Accepted
+
+---
+
+## ADR-010 Light theme only for v1
+
+**Decision:** Ship light theme; reserve CSS variables; no theme toggle.
+
+**Reason:** Dual themes double QA.
+
+**Alternative:** Full dark mode in v1.
+
+**Trade-offs:** No dark preference yet.
+
+**Future Impact:** [10-ideas](10-ideas.md); requires superseding ADR for toggle.
+
+**Status:** Accepted
+
+---
+
+## ADR-011 Split web and admin route files
+
+**Decision:** `routes/web.php` + `routes/admin.php`.
+
+**Reason:** Clear separation as routes grow.
+
+**Alternative:** Single file with groups.
+
+**Trade-offs:** Slightly more bootstrap wiring.
+
+**Future Impact:** Easy to add `api.php` later.
+
+**Status:** Accepted
+
+---
+
+## ADR-012 No Filament / Nova
+
+**Decision:** Custom Bootstrap admin.
+
+**Reason:** One design system; avoid admin package lock-in.
+
+**Alternative:** Filament for speed.
+
+**Trade-offs:** More Blade CRUD work.
+
+**Future Impact:** Fully owned admin UI.
+
+**Status:** Accepted
+
+---
+
+## ADR-013 Skill category as string
+
+**Decision:** `skills.category` plain string, not FK.
+
+**Reason:** Tiny taxonomy; table premature.
+
+**Alternative:** `skill_categories` table.
+
+**Trade-offs:** Label consistency — mitigate with select options.
+
+**Future Impact:** Normalize later if needed.
+
+**Status:** Accepted
+
+---
+
+## Adding new ADRs
+
+1. Use next number `ADR-014`, …
+2. Set **Status: Proposed** until human accepts → **Accepted**
+3. Update [02-architecture](02-architecture.md) if behavior changes
+4. Changelog entry
+5. Do not silently edit Accepted ADRs — supersede instead
