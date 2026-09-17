@@ -38,6 +38,11 @@ Only **Accepted** ADRs bind implementation. Superseding requires a new ADR that 
 11. [ADR-011](#adr-011-split-web-and-admin-route-files)
 12. [ADR-012](#adr-012-no-filament--nova)
 13. [ADR-013](#adr-013-skill-category-as-string)
+14. [ADR-014](#adr-014-public-assets-instead-of-vite)
+15. [ADR-015](#adr-015-public-assets-libs-directory)
+16. [ADR-016](#adr-016-toastify-global-notifications)
+17. [ADR-017](#adr-017-foundation-infrastructure-conventions)
+18. [ADR-018](#adr-018-services-as-a-first-class-content-table)
 
 ---
 
@@ -249,9 +254,98 @@ Only **Accepted** ADRs bind implementation. Superseding requires a new ADR that 
 
 ---
 
+## ADR-014 Public assets instead of Vite
+
+**Decision:** Serve CSS/JS from `public/assets/` via Laravel’s `asset()` helper. Ship Bootstrap 5 and Bootstrap Icons as static files under `public/assets/vendor/`. Do **not** use Vite, `@vite()`, `npm run dev`, or `npm run build` for this project.
+
+**Reason:** Phase 0 must work immediately after `php artisan serve` with no Node build step. Traditional public assets match XAMPP/solo-dev simplicity and remove Tailwind/Vite coupling from the Laravel skeleton.
+
+**Alternative:** Keep Vite + npm to bundle Bootstrap (previous architecture §12).
+
+**Trade-offs:** Manual vendor upgrades (copy new dist files); no HMR; slightly less “modern” frontend tooling. Mitigate by pinning Bootstrap/Icons versions in `IMPLEMENTATION-NOTES.md` / changelog when upgrading.
+
+**Future Impact:** All Blade layouts load `asset('assets/...')`. `resources/css` and `resources/js` are unused for production UI. Reintroducing Vite requires a superseding ADR.
+
+**Status:** Accepted *(path `vendor/` superseded by ADR-015)*
+
+**Supersedes:** Architecture §12 “Vite + npm Required” (docs v1.0.0).
+
+---
+
+## ADR-015 Public assets `libs/` directory
+
+**Decision:** Third-party front-end libraries live under `public/assets/libs/` (not `vendor/`). Application CSS/JS remain in `public/assets/css/` and `public/assets/js/`.
+
+**Reason:** `vendor/` is easily confused with Composer’s `vendor/`. `libs/` is the project standard for Bootstrap, Bootstrap Icons, Toastify, and future optional libraries (folders reserved: jquery, gsap, slick, splide).
+
+**Alternative:** Keep `public/assets/vendor/`.
+
+**Trade-offs:** One-time path migration in layouts and docs.
+
+**Future Impact:** All Blade `asset()` references use `assets/libs/...`. Composer `vendor/` is unrelated.
+
+**Status:** Accepted
+
+**Supersedes:** ADR-014 path wording (`public/assets/vendor/` → `public/assets/libs/`).
+
+---
+
+## ADR-016 Toastify global notifications
+
+**Decision:** Global success/error/info notifications use the Toastify library at `public/assets/libs/toast/` (`toastify.min.css` / `toastify.min.js`). Do not add another toast/notification package. Bootstrap Alerts are **inline page messages only** (e.g. form context, permanent page notices)—not global flash toasts.
+
+**Reason:** One consistent non-blocking notification UX for login/save/delete/validation/permission/upload feedback.
+
+**Alternative:** Bootstrap toast component; session flash via Alert only; toastr/sweetalert packages.
+
+**Trade-offs:** Small custom wrapper JS will be needed in a later phase; Toastify API must be wrapped once for consistency.
+
+**Future Impact:** Layouts load Toastify assets. Notification helper/logic lands in a later phase—structure only in Phase 0b. Component catalog treats Toast as Planned (wired later).
+
+**Status:** Accepted
+
+---
+
+## ADR-017 Foundation infrastructure conventions
+
+**Decision:** Before business logic, the project freezes conventions via:
+
+- Central `config/project.php` for site/meta UI defaults (pagination size, toast duration, upload limits, version)
+- Thin `app/Support/` utilities (`helpers.php`, `Asset`, `Url`, `Settings` placeholder) — **not** a Service Layer
+- Bootstrap error pages under `resources/views/errors/`
+- Knowledge docs for logging, file storage, validation, naming, toast guidelines (23–27)
+
+**Reason:** Prevents ad-hoc conventions during Auth/DB/CRUD phases. Keeps infrastructure discoverable for humans and AI.
+
+**Alternative:** Discover conventions only while coding features; put helpers in random places.
+
+**Trade-offs:** More docs to maintain; `Settings` class is a stub until ADR-004 is implemented.
+
+**Future Impact:** Controllers/Form Requests must follow 23–27. Do not invent parallel helper namespaces. Expanding `app/Support` into domain services requires a new ADR (still forbidden by ADR-007).
+
+**Status:** Accepted
+
+---
+
+## ADR-018 Services as a first-class content table
+
+**Decision:** Public “Services” offerings are stored in a `services` table (title, summary, Bootstrap Icon class, sort_order, is_published) and managed via admin CRUD. Do not encode services as settings keys or hardcoded Blade-only copy.
+
+**Reason:** The homepage needs an owner-editable services section. Skills/experiences already use Eloquent rows; settings key-value is a poor fit for a list with icons and order.
+
+**Alternative:** Hardcoded homepage cards; JSON in `settings`.
+
+**Trade-offs:** One extra table and admin resource. No RBAC package.
+
+**Future Impact:** Case-study pages stay on `projects`. Do not merge services into projects.
+
+**Status:** Accepted
+
+---
+
 ## Adding new ADRs
 
-1. Use next number `ADR-014`, …
+1. Use next number `ADR-019`, …
 2. Set **Status: Proposed** until human accepts → **Accepted**
 3. Update [02-architecture](02-architecture.md) if behavior changes
 4. Changelog entry

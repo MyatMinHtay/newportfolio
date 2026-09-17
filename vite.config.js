@@ -1,18 +1,6 @@
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
-import tailwindcss from '@tailwindcss/vite';
-
-export default defineConfig({
-    plugins: [
-        laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
-            refresh: true,
-        }),
-        tailwindcss(),
-    ],
-    server: {
-        watch: {
-            ignored: ['**/storage/framework/views/**'],
-        },
-    },
-});
+/**
+ * Unused (ADR-014).
+ * This project serves static assets from public/assets/ via asset().
+ * Do not enable Vite / Tailwind without a superseding ADR.
+ */
+export default {};

@@ -24,8 +24,8 @@
 |------|------|
 | XAMPP | Apache + MySQL + PHP on Windows |
 | Composer | PHP dependencies |
-| Node.js + npm | Vite, Bootstrap build |
 | Git | Source control |
+| Node.js + npm | **Not required** (ADR-014 — static `public/assets/`) |
 
 Document PHP version: **8.3+** (Laravel 12). Ensure XAMPP PHP matches.
 
@@ -41,11 +41,10 @@ High-level steps (implementation will flesh exact package installs in Phase 0):
 1. Clone / open project
 2. `composer install`
 3. Copy `.env.example` → `.env`, generate `APP_KEY`
-4. Create MySQL database; set `DB_*`
-5. `php artisan migrate --seed`
-6. `npm install`
-7. `npm run build` or `npm run dev`
-8. `php artisan storage:link`
+4. Create MySQL database; set `DB_*` (when Phase 0b+ migrations exist)
+5. `php artisan migrate --seed` (when seeders exist)
+6. `php artisan storage:link`
+7. Serve via Apache vhost or `php artisan serve` — **no npm build**
 
 ---
 
@@ -53,12 +52,12 @@ High-level steps (implementation will flesh exact package installs in Phase 0):
 
 ```bash
 php artisan serve          # optional if not using Apache vhost
-npm run dev                # Vite HMR during UI work
-npm run build              # production assets
 php artisan migrate
 php artisan db:seed --class=SettingsSeeder
 php artisan optimize:clear # local cache reset
 ```
+
+Static assets are already under `public/assets/` (no `npm run build`).
 
 On XAMPP Apache: point the vhost document root to `public/`, not the project root.
 

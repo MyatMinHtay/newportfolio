@@ -132,7 +132,7 @@ These must be additive. Core tables and controller style should not require a re
 |-------|--------|
 | Backend | Laravel 12, PHP 8.3+, MySQL |
 | Templates | Blade |
-| CSS/JS | Bootstrap 5, Bootstrap Icons, Vanilla JS, Vite |
+| CSS/JS | Bootstrap 5, Bootstrap Icons, Vanilla JS via `public/assets/` (no Vite) |
 | Auth | Manual login UI + Laravel Socialite (Google) |
 | Hosting (dev) | XAMPP on Windows |
 

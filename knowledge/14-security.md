@@ -54,6 +54,8 @@ Form Requests on all writes. Strict types. Unique slugs. Reject unexpected mass 
 
 ## 5. Uploads
 
+Canonical detail: [24-file-storage](24-file-storage.md). Caps: `config('project.upload_limits')`.
+
 | Asset | Rules |
 |-------|-------|
 | Images | jpg/jpeg/png/webp + size cap |

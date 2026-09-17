@@ -13,7 +13,10 @@
 | Case Studies | Structured sections beyond Markdown body |
 | Project Gallery | `project_images` table, lightbox UI |
 | Testimonials | New model or settings blocks |
-| Services / offerings | Only if freelancing pages needed |
+| Services / offerings | **Shipped (homepage + admin CRUD)** — `services` table, ADR-018 |
+| Developer Scripts / Tools Hub | Share user-authored scripts, code snippets, automation tools & download links. Early public preview: [Dev Toolkit](https://devtoolkit.freedev.app/) |
+| **P Finance** | Planned future product — not on the public homepage until it ships |
+| **LMS** | Planned learning-platform product — not on the public homepage until it ships |
 
 ---
 

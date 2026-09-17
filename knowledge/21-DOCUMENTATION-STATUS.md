@@ -2,7 +2,7 @@
 
 **Purpose:** Canonical lock record for the `knowledge/` documentation set.
 
-**Related:** [00-CONSTITUTION](00-CONSTITUTION.md) · [08-changelog](08-changelog.md) · [16-ai-rules](16-ai-rules.md)
+**Related:** [00-CONSTITUTION](00-CONSTITUTION.md) · [08-changelog](08-changelog.md) · [16-ai-rules](16-ai-rules.md) · [FOUNDATION-LOCK-REPORT](../FOUNDATION-LOCK-REPORT.md)
 
 ---
 
@@ -10,9 +10,9 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | `1.0.0` |
-| **Status** | **LOCKED** |
-| **Last Review** | `2026-07-24` |
+| **Version** | `1.1.0` |
+| **Status** | **LOCKED** (Foundation Lock) |
+| **Last Review** | `2026-07-25` |
 
 ### Area locks
 
@@ -22,29 +22,28 @@
 | Design System | **LOCKED** |
 | Coding Style | **LOCKED** |
 | AI Rules | **LOCKED** |
-| Database | **LOCKED** |
+| Database (schema spec) | **LOCKED** |
 | Components | **LOCKED** |
 | Roadmap | **LOCKED** |
 | Security | **LOCKED** |
+| Logging / Storage / Validation / Naming / Toast | **LOCKED** |
 | Testing / SEO / Release / Glossary | **LOCKED** |
+| Foundation infrastructure (config + Support + errors) | **LOCKED** |
 
 ---
 
 ## Meaning of LOCKED
 
-1. **Phase 0+ implementation must follow these documents.**  
-2. Do not redesign architecture “in the middle of coding.”  
-3. Architecture or stack changes require:
-   - New or updated **ADR** in [06-decisions](06-decisions.md) with Status  
-   - Updates to [02-architecture](02-architecture.md) (and related docs)  
-   - Changelog entry  
-   - Human approval  
-4. Component **implementation** may move status Planned → In Progress → Completed in [12-components](12-components.md) without unlocking the design system.  
-5. Roadmap phase statuses may move Planned → In Progress → Completed as work ships.
+1. Implementation must follow these documents.  
+2. Do not redesign architecture mid-feature.  
+3. Architecture or stack changes require ADR → architecture doc → code → changelog → human approval.  
+4. Component implementation statuses may move Planned → Completed without unlocking the design system.  
+5. Roadmap phase statuses may advance as work ships.  
+6. **Next gated work:** Authentication + Database (not started). Await human approval.
 
 ---
 
-## Document index (v1.0.0)
+## Document index (v1.1.0)
 
 | File | Title |
 |------|-------|
@@ -70,3 +69,10 @@
 | 19 | Release process |
 | 20 | Glossary |
 | 21 | Documentation status (this file) |
+| 22 | UI components reference |
+| 23 | Logging |
+| 24 | File storage |
+| 25 | Validation |
+| 26 | Naming |
+| 27 | Toast guidelines |
+| 28 | Old portfolio analysis & renewal map |

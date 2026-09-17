@@ -52,6 +52,7 @@
 | `blog_posts` | Yes | Same |
 | `experiences` | Yes | Same |
 | `skills` | No | Cheap to recreate; less clutter |
+| `services` | No | Cheap to recreate |
 | `social_links` | No | Tiny list |
 | `categories` | No | Reassign or null posts on delete |
 | `settings` | No | Key-value registry |
@@ -154,8 +155,18 @@ Standalone entities (no FKs in v1): Project, Skill, Experience, SocialLink, Sett
 ### `skills`
 
 - `name`, `category` string
+- `icon_path` nullable (public-disk relative path, e.g. `skills/icons/{uuid}.png`)
 - `proficiency` unsignedTinyInteger nullable (1–5)
 - `sort_order`, `is_published`
+
+### `services`
+
+- `title` string
+- `summary` text
+- `icon` string (Bootstrap Icons class, e.g. `bi-layers`)
+- `sort_order` int
+- `is_published` boolean
+- timestamps only (no soft deletes — cheap to recreate)
 
 ### `experiences`
 

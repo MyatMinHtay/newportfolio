@@ -30,22 +30,44 @@ portfolio/
 │   │   └── Requests/
 │   │       └── Admin/
 │   ├── Models/
-│   └── Providers/
+│   ├── Providers/
+│   └── Support/               ← thin utilities only (ADR-017)
+│       ├── helpers.php
+│       ├── Asset.php
+│       ├── Url.php
+│       ├── Settings.php
+│       └── PublicUpload.php   ← UUID image store/delete on public disk
 ├── bootstrap/
 ├── config/
+│   └── project.php            ← central project defaults
 ├── database/
 │   ├── migrations/
 │   ├── seeders/
 │   └── factories/
 ├── knowledge/                 ← documentation source of truth
 ├── public/                    ← web root
+│   ├── assets/
+│   │   ├── css/               ← app.css (tokens)
+│   │   ├── js/                ← app.js (Bootstrap init)
+│   │   ├── img/
+│   │   ├── fonts/
+│   │   ├── icons/
+│   │   └── libs/
+│   │       ├── bootstrap/
+│   │       ├── bootstrap-icons/
+│   │       ├── toast/
+│   │       ├── jquery/
+│   │       ├── gsap/
+│   │       ├── slick/
+│   │       └── splide/
 │   └── storage → ../storage/app/public
 ├── resources/
-│   ├── css/
-│   ├── js/
 │   └── views/
 │       ├── layouts/
 │       ├── components/
+│       ├── placeholders/      ← Phase 0 shells only
+│       ├── errors/            ← 401–503 Bootstrap pages
+│       ├── dev/               ← ui-preview (dev only)
 │       ├── public/
 │       ├── admin/
 │       └── auth/
@@ -55,11 +77,12 @@ portfolio/
 ├── storage/
 │   └── app/public/
 │       ├── projects/covers/
+│       ├── skills/icons/
 │       ├── blog/covers/
 │       ├── resumes/
 │       └── profile/
 ├── tests/
-└── (composer.json, package.json, vite.config.js, …)
+└── (composer.json, …)
 ```
 
 ---
@@ -79,6 +102,7 @@ Application PHP code. Controllers, models, middleware, form requests, providers.
 | `Http/Middleware` | e.g. `EnsureUserIsAdmin` |
 | `Models` | Eloquent (`Setting` included) |
 | `Providers` | Paginator, view composers |
+| `Support` | Path/URL helpers + Settings stub — **not** a Service Layer |
 
 ### `resources/`
 
@@ -89,7 +113,9 @@ Application PHP code. Controllers, models, middleware, form requests, providers.
 | `views/public` | Public pages |
 | `views/admin` | CMS pages by resource |
 | `views/auth` | Login |
-| `css` / `js` | Vite entries (Bootstrap) |
+| `views/placeholders` | Temporary Phase 0 shells |
+
+Frontend CSS/JS live under `public/assets/` (ADR-014), not Vite entries.
 
 ### `routes/`
 
@@ -108,7 +134,7 @@ Logs, cache, uploaded files under `app/public/...` (linked to `public/storage`).
 
 ### `public/`
 
-**Only** web-accessible entry (`index.php`), built assets, storage symlink. Never secrets.
+Web-accessible entry (`index.php`), static `assets/` (CSS/JS/`libs/`), storage symlink. Never secrets.
 
 ### `knowledge/`
 

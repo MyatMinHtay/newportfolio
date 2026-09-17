@@ -31,7 +31,7 @@
 - Prefer explicit code over clever metaprogramming.
 - Avoid duplicated logic — extract scopes/components, not frameworks.
 - Keep methods small and readable (one responsibility).
-- Avoid helper function pollution (prefer model methods / focused classes).
+- Avoid helper function pollution (prefer model methods / focused classes). Approved thin wrappers only: `project()`, `project_asset()`, `project_url()` in `app/Support/helpers.php` (ADR-017).
 - Run Laravel Pint when practical.
 
 ---
@@ -144,7 +144,7 @@ Bootstrap utilities/components first. Custom CSS only for tokens. Bootstrap Icon
 
 ## 12. JavaScript
 
-Minimal: Bootstrap bundle + small helpers in `resources/js/app.js`. No jQuery/Livewire/Vue/React by default.
+Minimal: Bootstrap bundle + small helpers in `public/assets/js/app.js`. Load via `asset()`. No jQuery/Livewire/Vue/React/Vite by default.
 
 ---
 

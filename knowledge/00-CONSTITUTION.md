@@ -47,7 +47,7 @@ Never the reverse.
 
 ### 2.1 Laravel Native First
 
-Prefer Eloquent, Blade, Form Requests, Middleware, Cache, Socialite, Vite plugin before third-party frameworks.
+Prefer Eloquent, Blade, Form Requests, Middleware, Cache, Socialite, and static `public/assets` before third-party frameworks or frontend build tools.
 
 ### 2.2 Bootstrap Only
 
@@ -111,6 +111,6 @@ See the canonical lock record: [21-DOCUMENTATION-STATUS](21-DOCUMENTATION-STATUS
 
 | Field | Value |
 |-------|-------|
-| Version | **1.0.0** |
-| Status | **LOCKED** |
-| Last Review | **2026-07-24** |
+| Version | **1.1.0** |
+| Status | **LOCKED** (Foundation Lock) |
+| Last Review | **2026-07-25** |

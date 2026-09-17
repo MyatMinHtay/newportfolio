@@ -51,7 +51,7 @@ Solo or with AI assistance:
 
 - Run relevant feature/unit tests ([17-testing](17-testing.md))
 - Manual smoke: login, one CRUD, one public page, contact (when exist)
-- `npm run build` succeeds before production deploy
+- Confirm `public/assets/libs/` + app CSS/JS present (no npm build — ADR-014 / ADR-015)
 
 ---
 
@@ -70,7 +70,7 @@ Follow [07-deployment](07-deployment.md) production checklist:
 
 - Pull/tag on server
 - `composer install --no-dev`
-- `npm ci && npm run build` (or deploy built assets)
+- Deploy committed `public/assets/` (no npm build — ADR-014)
 - `php artisan migrate --force`
 - `config:cache` / `route:cache` / `view:cache` as appropriate
 - `storage:link` if needed
@@ -94,7 +94,7 @@ Follow [07-deployment](07-deployment.md) production checklist:
 |-------|--------|
 | Code | Redeploy previous git tag |
 | Migrations | Prefer forward-fix; keep migrations backward-safe; restore DB backup if destructive |
-| Assets | Redeploy previous `public/build` |
+| Assets | Redeploy previous `public/assets/` from the prior tag |
 | Config | Keep previous `.env` unless the release required env changes |
 
 Always verify backup freshness before risky migrations.

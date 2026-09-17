@@ -1,118 +1,155 @@
 # 13 — Design System
 
-**Purpose:** Visual language and token documentation. **No CSS code in this file** — implementation happens in `resources/css/app.css` during Phase 0+.
+**Purpose:** UI source of truth for tokens, component styles, responsive and accessibility rules.  
+**Implementation:** `public/assets/css/app.css` (tokens) + Bootstrap 5 + Blade components ([22-ui-components](22-ui-components.md)).  
+**No page designs in this file.**
 
-**Related:** [05-ui-guidelines](05-ui-guidelines.md) · [12-components](12-components.md) · [06-decisions](06-decisions.md) (ADR-001, ADR-010)
+**Related:** [05-ui-guidelines](05-ui-guidelines.md) · [12-components](12-components.md) · [22-ui-components](22-ui-components.md) · ADR-001 · ADR-010 · ADR-015 · ADR-016
 
 ---
 
 ## Table of contents
 
-1. [Design principles](#1-design-principles)
-2. [Typography](#2-typography)
-3. [Color tokens](#3-color-tokens)
-4. [Spacing](#4-spacing)
-5. [Radius](#5-radius)
-6. [Shadows](#6-shadows)
-7. [Icons](#7-icons)
+1. [Principles](#1-principles)
+2. [Color palette](#2-color-palette)
+3. [Typography scale](#3-typography-scale)
+4. [Spacing system](#4-spacing-system)
+5. [Radius & shadows](#5-radius--shadows)
+6. [Z-index & transitions](#6-z-index--transitions)
+7. [Breakpoints & container](#7-breakpoints--container)
 8. [Buttons](#8-buttons)
 9. [Forms](#9-forms)
-10. [Cards](#10-cards)
-11. [Tables](#11-tables)
-12. [Alerts and badges](#12-alerts-and-badges)
-13. [Dropdowns](#13-dropdowns)
-14. [Responsive rules](#14-responsive-rules)
-15. [Responsive philosophy](#15-responsive-philosophy)
-16. [Interaction principles](#16-interaction-principles)
-17. [Motion guidelines](#17-motion-guidelines)
-18. [Dark mode strategy](#18-dark-mode-strategy-future)
+10. [Tables](#10-tables)
+11. [Cards](#11-cards)
+12. [Modals](#12-modals)
+13. [Alerts vs toasts](#13-alerts-vs-toasts)
+14. [Badges](#14-badges)
+15. [Icons](#15-icons)
+16. [Responsive rules](#16-responsive-rules)
+17. [Accessibility rules](#17-accessibility-rules)
+18. [Motion](#18-motion)
+19. [Dark mode](#19-dark-mode)
 
 ---
 
-## 1. Design principles
+## 1. Principles
 
-1. **Clarity** — readable type, clear hierarchy  
-2. **Restraint** — one accent family; limited decoration  
-3. **Consistency** — same patterns in public and admin  
-4. **Bootstrap-native** — theme Bootstrap rather than fighting it  
-5. **Accessible contrast** — text/background meet WCAG AA where practical  
+1. Clarity and restraint — one accent family (teal)
+2. Bootstrap-native — theme via CSS variables, don’t fight the framework
+3. Same language for public and admin (admin may be denser)
+4. Content first; chrome second
+5. Accessible contrast (WCAG AA where practical)
 
-Inspiration: GitHub, Laravel Docs, Linear (calm, not flashy).
-
----
-
-## 2. Typography
-
-| Role | Guidance |
-|------|----------|
-| Font family | System stack or one clean sans (e.g. system-ui / Inter-like via Bunny/Google only if needed) |
-| Body | Comfortable size (~1rem), line-height ~1.5–1.6 |
-| Page title | Strong weight; one H1 |
-| Section title | H2/H3 with consistent margins |
-| Muted | Secondary text for help/meta |
-| Mono | Optional for slugs/IDs in admin |
-
-Do not introduce display/serif novelty fonts for v1.
+Inspiration: GitHub, Laravel Docs, Linear (calm).
 
 ---
 
-## 3. Color tokens
+## 2. Color palette
 
-Define CSS custom properties (names illustrative):
+CSS custom properties (prefix `--pf-`):
 
-| Token | Role |
-|-------|------|
-| `--pf-bg` | Page background (near-white / soft gray) |
-| `--pf-surface` | Cards, sidebar, nav |
-| `--pf-border` | Hairline borders |
-| `--pf-text` | Primary text |
-| `--pf-text-muted` | Secondary text |
-| `--pf-accent` | Primary actions / links |
-| `--pf-accent-hover` | Hover accent |
-| `--pf-danger` | Destructive |
-| `--pf-success` | Success states |
-| `--pf-warning` | Warning states |
+### Light Theme (Default)
 
-Map Bootstrap `$primary` (or CSS overrides) to `--pf-accent` so components stay coherent.
+| Role | Hex | RGB | HSL | CSS Variable |
+|------|-----|-----|-----|--------------|
+| **Text** | `#030507` | `rgb(3, 5, 7)` | `hsl(210, 40%, 2%)` | `--pf-text` |
+| **Background** | `#f5f9fb` | `rgb(245, 249, 251)` | `hsl(200, 43%, 97%)` | `--pf-bg` |
+| **Primary** | `#3B82F6` | `rgb(59, 130, 246)` | `hsl(217, 91%, 60%)` | `--pf-primary` / `--bs-primary` |
+| **Secondary** | `#47566b` | `rgb(71, 86, 107)` | `hsl(215, 20%, 35%)` | `--pf-secondary` / `--bs-secondary` |
+| **Accent** | `#06B6D4` | `rgb(6, 182, 212)` | `hsl(189, 94%, 43%)` | `--pf-accent` / `--bs-info` |
+| Surface | `#ffffff` | `rgb(255, 255, 255)` | — | `--pf-surface` |
+| Surface muted | `#e9f0f5` | — | — | `--pf-surface-muted` |
+| Border | `#dbe4ea` | — | — | `--pf-border` |
+| Border strong | `#bac7d5` | — | — | `--pf-border-strong` |
+| Text muted | `#47566b` | `rgb(71, 86, 107)` | — | `--pf-text-muted` |
 
-Avoid purple-on-white cliché gradients as brand identity.
+#### Light Theme Gradients
+
+| Gradient Name | Definition |
+|---------------|------------|
+| `--linearPrimarySecondary` | `linear-gradient(#3B82F6, #47566b)` |
+| `--linearPrimaryAccent` | `linear-gradient(#3B82F6, #06B6D4)` |
+| `--linearSecondaryAccent` | `linear-gradient(#47566b, #06B6D4)` |
+| `--radialPrimarySecondary` | `radial-gradient(#3B82F6, #47566b)` |
+| `--radialPrimaryAccent` | `radial-gradient(#3B82F6, #06B6D4)` |
+| `--radialSecondaryAccent` | `radial-gradient(#47566b, #06B6D4)` |
+
+Bootstrap `--bs-primary` maps to `--pf-primary` (`#3B82F6`), `--bs-secondary` maps to `--pf-secondary` (`#47566b`), and `--bs-info` maps to `--pf-accent` (`#06B6D4`).
 
 ---
 
-## 4. Spacing
+## 3. Typography scale
 
-Use Bootstrap spacing scale (`0`–`5` / `4` / `5`) consistently.
+| Token / role | Size | Weight |
+|--------------|------|--------|
+| Font sans | system-ui stack (`--pf-font-sans`) | — |
+| Font mono | ui-monospace stack | — |
+| `--pf-text-xs` | 0.75rem | meta |
+| `--pf-text-sm` | 0.875rem | help, footer |
+| `--pf-text-base` | 1rem | body |
+| `--pf-text-lg` | 1.125rem | H4 |
+| `--pf-text-xl` | 1.25rem | H3 |
+| `--pf-text-2xl` | 1.5rem | H2 |
+| `--pf-text-3xl` | 1.875rem | H1 |
+
+Line heights: tight `1.25` (headings), normal `1.6` (body), relaxed `1.75` (long-form later).
+
+One `h1` per page. No novelty display/serif fonts in v1.
+
+---
+
+## 4. Spacing system
+
+Scale: `--pf-space-0` … `--pf-space-10` (0 → 4rem). Prefer Bootstrap spacing utilities (`m-*`, `p-*`, `gap-*`) aligned to this rhythm.
 
 | Context | Guidance |
 |---------|----------|
-| Page sections | Generous vertical gap |
-| Card padding | Comfortable, not cramped |
-| Form groups | Consistent `mb-*` |
+| Page sections | `--pf-space-8` vertical |
+| Card padding | Bootstrap `card-body` / `p-3` |
+| Form groups | `mb-3` |
 | Admin density | Slightly tighter than public |
 
----
-
-## 5. Radius
-
-- Prefer Bootstrap default radius or a single custom radius token (e.g. 0.5rem)
-- Keep radius consistent across cards, buttons, inputs
-- Avoid large “pill everything” aesthetics
+Helpers: `.pf-stack`, `.pf-stack-sm`, `.pf-stack-lg`.
 
 ---
 
-## 6. Shadows
+## 5. Radius & shadows
 
-- Prefer subtle shadows or border-only elevation
-- One soft shadow token for cards/dropdowns
-- No multi-layer neon glows
+| Token | Value |
+|-------|-------|
+| `--pf-radius-sm` | 0.25rem |
+| `--pf-radius` | 0.5rem (default) |
+| `--pf-radius-lg` | 0.75rem |
+| `--pf-shadow-sm` | subtle |
+| `--pf-shadow` | cards |
+| `--pf-shadow-md` | elevated / offcanvas |
+
+No multi-layer neon glows. No pill-everything aesthetics.
 
 ---
 
-## 7. Icons
+## 6. Z-index & transitions
 
-- **Bootstrap Icons only**
-- Size aligned with text (1em–1.25em for inline)
-- Always pair icon-only controls with `aria-label` or visible text for primary actions
+Z ladder: dropdown → sticky → fixed → modal-backdrop → modal → popover → tooltip → **toast (`--pf-z-toast: 1090`)**.
+
+Transitions: `--pf-duration-fast` 150ms, `--pf-duration` 200ms, `--pf-duration-slow` 300ms. Prefer color/opacity/border/shadow — not width/height layout animation.
+
+---
+
+## 7. Breakpoints & container
+
+| Token | Width |
+|-------|-------|
+| `--pf-bp-sm` | 576px |
+| `--pf-bp-md` | 768px |
+| `--pf-bp-lg` | 992px |
+| `--pf-bp-xl` | 1200px |
+| `--pf-bp-xxl` | 1400px |
+| `--pf-container` | 1140px |
+| `--pf-container-narrow` | 720px |
+| `--pf-admin-sidebar-width` | 240px |
+
+Use Bootstrap’s grid and breakpoints in practice; tokens document intent.
 
 ---
 
@@ -120,116 +157,157 @@ Use Bootstrap spacing scale (`0`–`5` / `4` / `5`) consistently.
 
 | Variant | Use |
 |---------|-----|
-| Primary | Main CTA (Create, Save, Send) |
-| Outline secondary | Cancel, secondary nav |
-| Danger | Delete / destructive confirm |
-| Link | Tertiary actions |
+| `primary` | Main CTA |
+| `secondary` / `outline-secondary` | Cancel, secondary |
+| `danger` | Destructive |
+| `link` | Tertiary |
 
-Sizes: default for forms; `btn-sm` in tables.
+Sizes: default forms; `sm` in tables. Component: `<x-button>`.
 
 ---
 
 ## 9. Forms
 
-- Labels above fields
-- Validation: Bootstrap `is-invalid` + feedback text
-- Help text muted under fields
-- Full-width inputs on mobile
+- Labels above inputs
+- Required marker `*`
+- Validation: `is-invalid` + feedback
+- Help: `.form-text`
+- Components: `<x-form.input>`, `<x-form.textarea>`, `<x-form.checkbox>`, `<x-form.select>`
 
 ---
 
-## 10. Cards
+## 10. Tables
 
-- Light surface + border
-- Optional header/footer
-- Used for public project grids and admin dashboard widgets
-- No heavy glassmorphism
-
----
-
-## 11. Tables
-
-- `table` + optional `table-hover`
-- Header contrast subtle (not loud color blocks)
-- Action buttons `btn-sm`
-- Wrap with `table-responsive`
+- Wrap with `<x-table>` (`table-responsive`)
+- Optional hover/striped
+- Actions column right-aligned, `btn-sm`
+- Header quiet (not loud color blocks)
 
 ---
 
-## 12. Alerts and badges
+## 11. Cards
 
-- Alerts: success / danger / warning / info — match flash types
-- Badges: published/draft/featured/unread — text + color, not color alone
-
----
-
-## 13. Dropdowns
-
-- Bootstrap dropdowns for user menu and row actions if needed
-- Prefer visible buttons when only 1–2 actions exist
+- Surface + border + light shadow (`.pf-surface` / `<x-card>`)
+- Optional header/footer slots
+- No glassmorphism
 
 ---
 
-## 14. Responsive rules
+## 12. Modals
+
+- Bootstrap modal via `<x-modal>`
+- Confirm destructive actions
+- Use built-in Bootstrap transitions only
+
+---
+
+## 13. Alerts vs toasts
+
+| Kind | Tool | Use |
+|------|------|-----|
+| **Global notification** | Toastify (`public/assets/libs/toast/`) | Login/save/delete/validation/permission/upload |
+| **Inline message** | `<x-alert>` Bootstrap Alert | Contextual page notices, validation summary block |
+
+Do not use Bootstrap Alert for global flash success/error. Do not add another toast package (ADR-016).
+
+---
+
+## 14. Badges
+
+Published / Draft / Featured / Unread — text + color. Component: `<x-badge>`.
+
+---
+
+## 15. Icons
+
+Bootstrap Icons only. Decorative icons need accompanying text or `aria-label` on icon-only controls.
+
+---
+
+## 16. Responsive rules
 
 | Breakpoint | Behavior |
 |------------|----------|
-| `< md` | Collapsed nav; stacked forms; offcanvas admin sidebar |
-| `md+` | Horizontal nav; multi-column grids |
-| `lg+` | Comfortable reading measure for blog |
+| `< md` | Collapsed public nav; admin sidebar → offcanvas |
+| `md+` | Horizontal nav; fixed admin sidebar |
+| `lg+` | Comfortable reading measure for blog later |
 
-Touch targets ≥ ~40px where possible.
-
----
-
-## 15. Responsive philosophy
-
-- **Mobile first:** layout must work at 360px width before enhancing.
-- **Progressive enhancement:** core content readable without fancy JS.
-- **Reflow over shrink:** stack columns; don’t force tiny unreadable tables.
-- **Admin usability on tablet:** sidebar may become offcanvas; primary actions remain reachable.
-- **Public marketing restraint:** avoid hero carousels and auto-play motion.
+Mobile-first. Tables never force page-wide horizontal scroll without `table-responsive`. Touch targets ≥ ~40px where practical.
 
 ---
 
-## 16. Interaction principles
+## 17. Accessibility rules
 
-1. Feedback is immediate (hover/focus/active states).
-2. Destructive actions require confirmation.
-3. Primary action per view is visually dominant (one primary button).
-4. Don’t animate layout shifts that disorient (especially sidebar).
-5. Prefer opacity/color/underline transitions over bouncing motion.
-6. Respect `prefers-reduced-motion` (disable non-essential animation).
+1. One `h1` per page; logical heading order  
+2. Associate every input with a `<label>`  
+3. Visible `:focus-visible` ring (accent)  
+4. Do not rely on color alone for status  
+5. `aria-label` on icon-only buttons  
+6. Modals: use Bootstrap’s labelled-by pattern  
+7. Respect `prefers-reduced-motion`  
 
 ---
 
-## 17. Motion guidelines
+## 18. Motion
 
 | Concern | Guideline |
 |---------|-----------|
-| **Default duration** | 150–200ms for color/opacity; 200–300ms for small transforms |
-| **Max duration** | ≤ 400ms for UI chrome; longer only for deliberate page transitions (rare) |
-| **Easing** | Ease-out for entrances; ease-in-out for toggles |
-| **Hover** | Subtle color / underline / border; avoid large scale (`scale(1.05+)` discouraged) |
-| **Focus** | Visible focus ring (Bootstrap defaults or tokenized outline); never `outline: none` without replacement |
-| **Active/pressed** | Slightly darker accent; no extreme press animations |
-| **Transitions** | Transition `color`, `background-color`, `border-color`, `opacity`, `box-shadow`; avoid transitioning `width`/`height`/`top`/`left` |
-| **Loading** | Spinners only for waits > ~300ms; prefer disabled button state for short submits |
-| **Modals** | Use Bootstrap’s built-in transitions; don’t stack custom animations on top |
-
-**Documentation only — no CSS in this file.** Implement tokens/rules in `resources/css/app.css` during Phase 0+.
+| Hover | Color / underline / border — avoid large scale |
+| Duration | 150–300ms typical; ≤ 400ms UI chrome |
+| Loading | Prefer disabled button for short submits |
 
 ---
 
-## 18. Dark mode strategy (future)
+## 19. Dark mode
 
-- v1 ships **light only** (ADR-010)
-- Implement tokens so dark mode can override variables later
-- Prefer Bootstrap 5.3 `data-bs-theme` when enabling
-- Theme toggle component remains deferred ([12-components](12-components.md), [10-ideas](10-ideas.md))
+Activated via `[data-bs-theme="dark"]` attribute or `html.dark` / `body.dark` class. State is persisted in `localStorage('portfolio_theme')`.
+
+### Dark Theme Palette
+
+| Role | Hex | RGB | HSL | CSS Variable |
+|------|-----|-----|-----|--------------|
+| **Text** | `#f8fafc` | `rgb(248, 250, 252)` | `hsl(210, 40%, 98%)` | `--pf-text` |
+| **Background** | `#04090b` | `rgb(4, 9, 11)` | `hsl(197, 47%, 3%)` | `--pf-bg` |
+| **Primary** | `#38bdf8` | `rgb(56, 189, 248)` | `hsl(198, 93%, 60%)` | `--pf-primary` / `--bs-primary` |
+| **Secondary** | `#47566b` | `rgb(71, 86, 107)` | `hsl(215, 20%, 35%)` | `--pf-secondary` / `--bs-secondary` |
+| **Accent** | `#2ad9f8` | `rgb(42, 217, 248)` | `hsl(189, 94%, 57%)` | `--pf-accent` / `--bs-info` |
+| Surface | `#0b1318` | — | — | `--pf-surface` |
+| Surface muted | `#111e27` | — | — | `--pf-surface-muted` |
+| Border | `#1a2c38` | — | — | `--pf-border` |
+| Border strong | `#273e4f` | — | — | `--pf-border-strong` |
+| Text muted | `#94a3b8` | — | — | `--pf-text-muted` |
+
+#### Dark Theme Gradients
+
+| Gradient Name | Definition |
+|---------------|------------|
+| `--linearPrimarySecondary` | `linear-gradient(#38bdf8, #47566b)` |
+| `--linearPrimaryAccent` | `linear-gradient(#38bdf8, #2ad9f8)` |
+| `--linearSecondaryAccent` | `linear-gradient(#47566b, #2ad9f8)` |
+| `--radialPrimarySecondary` | `radial-gradient(#38bdf8, #47566b)` |
+| `--radialPrimaryAccent` | `radial-gradient(#38bdf8, #2ad9f8)` |
+| `--radialSecondaryAccent` | `radial-gradient(#47566b, #2ad9f8)` |
+
+---
+
+## Asset paths (official)
+
+```text
+public/assets/
+├── css/app.css
+├── js/app.js
+└── libs/
+    ├── bootstrap/
+    ├── bootstrap-icons/
+    ├── toast/          ← Toastify
+    ├── jquery/         ← reserved
+    ├── gsap/           ← reserved
+    ├── slick/          ← reserved
+    └── splide/         ← reserved
+```
 
 ---
 
 ## Maintenance
 
-When changing colors/type/motion, update this document **before** large CSS refactors so AI/humans stay aligned.
+Update this document **before** large token/CSS changes. Keep [22-ui-components](22-ui-components.md) in sync when adding components. Preview at `/ui-preview`.

@@ -24,6 +24,7 @@
 12. [Asset pipeline](#12-asset-pipeline)
 13. [Explicit non-goals](#13-explicit-non-goals)
 14. [Future expansion](#14-future-expansion)
+15. [Foundation infrastructure (locked)](#15-foundation-infrastructure-locked)
 
 ---
 
@@ -58,6 +59,8 @@ Single owner. No multi-tenant SaaS. No visitor accounts.
 | About | Bio / photo from settings |
 | Experience | Chronological published list |
 | Skills | Grouped by `category` string |
+| Services | Published offerings (Laravel work, integrations, ops) |
+| Projects | Index + show by slug |
 | Projects | Index + show by slug |
 | Blog | Index + show by slug; optional category filter |
 | Contact | Form → `contact_messages` + throttle |
@@ -66,7 +69,7 @@ Single owner. No multi-tenant SaaS. No visitor accounts.
 ### Admin (`/admin`)
 
 - Dashboard (counts: projects, posts, unread messages)
-- CRUD: Projects, Blog Posts, Categories, Skills, Experience, Social Links
+- CRUD: Projects (case studies), Services, Blog Posts, Categories, Skills, Experience, Social Links
 - Resume upload / replace / activate
 - Site Settings (key-value)
 - Contact Messages (list, mark read, delete)
@@ -172,6 +175,7 @@ erDiagram
     categories ||--o{ blog_posts : categorizes
     projects
     skills
+    services
     experiences
     social_links
     settings
@@ -238,13 +242,37 @@ Paginator: Bootstrap 5 (`Paginator::useBootstrapFive()`).
 
 | Choice | Status |
 |--------|--------|
-| Vite + npm | Required |
-| Bootstrap 5 + Bootstrap Icons | Required |
-| Vanilla JS in `resources/js` | Required |
+| `public/assets/` + `asset()` | **Required** (ADR-014) |
+| Third-party libs under `public/assets/libs/` | **Required** (ADR-015) |
+| Bootstrap 5 + Bootstrap Icons (local libs) | Required |
+| Toastify for global notifications | **Required** (ADR-016) |
+| Vanilla JS in `public/assets/js/app.js` | Required |
+| Vite / `@vite()` / `npm run build` | **Rejected** (ADR-014) |
 | Tailwind | Remove |
-| CDN-only Bootstrap for production | Rejected (version drift) |
+| CDN-only Bootstrap for production | Rejected (version drift; commit libs instead) |
 
-**Why npm + Vite:** Version-locked assets, works with Laravel’s default tooling, reproducible builds.
+**Layout:**
+
+```text
+public/assets/
+├── css/app.css
+├── js/app.js
+├── img/
+├── fonts/
+├── icons/
+└── libs/
+    ├── bootstrap/
+    ├── bootstrap-icons/
+    ├── toast/                 ← Toastify (global notifications)
+    ├── jquery/                ← reserved (empty until ADR)
+    ├── gsap/                  ← reserved
+    ├── slick/                 ← reserved
+    └── splide/                ← reserved
+```
+
+**Notifications:** Global feedback → Toastify. Inline contextual messages → Bootstrap Alert components. See ADR-016.
+
+**Why public assets:** No Node build step; works after `php artisan serve`; version-locked by committing lib dist files.
 
 ---
 
@@ -270,6 +298,25 @@ Paginator: Bootstrap 5 (`Paginator::useBootstrapFive()`).
 | Dark mode | Flip CSS variables / `data-bs-theme` |
 
 Model scopes such as `scopePublished()` keep public queries consistent as features grow.
+
+---
+
+## 15. Foundation infrastructure (locked)
+
+Frozen before Auth/DB/CRUD (ADR-017):
+
+| Piece | Location |
+|-------|----------|
+| Project config | `config/project.php` |
+| Thin utilities | `app/Support/` (+ `helpers.php` autoload) |
+| Error pages | `resources/views/errors/{401,403,404,419,429,500,503}.blade.php` |
+| Logging rules | [23-logging](23-logging.md) |
+| Upload paths/naming | [24-file-storage](24-file-storage.md) |
+| Validation rules | [25-validation](25-validation.md) |
+| Naming rules | [26-naming](26-naming.md) |
+| Toast rules | [27-toast-guidelines](27-toast-guidelines.md) |
+
+`app/Support` is **not** a domain Service Layer. No business logic belongs there.
 
 ---
 

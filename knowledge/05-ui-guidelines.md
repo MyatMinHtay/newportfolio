@@ -114,8 +114,9 @@ Do not invent a second admin visual language. Same Bootstrap + tokens as public,
 ## 8. Empty states and feedback
 
 - Every index needs an empty state (icon + message + CTA when relevant)
-- Success/error via flash + `<x-alert>`
-- Prefer inline confirmation for deletes (Bootstrap modal)
+- **Global notifications** (login/save/delete/validation/permission/upload): Toastify via `public/assets/libs/toast/` (ADR-016). Full rules: [27-toast-guidelines](27-toast-guidelines.md). Do not use Bootstrap Alert for these.
+- **Inline page messages** only: `<x-alert>` (contextual notices on a page)
+- Prefer modal confirmation for deletes (Bootstrap modal)
 
 ---
 
@@ -139,7 +140,13 @@ Do not invent a second admin visual language. Same Bootstrap + tokens as public,
 
 ---
 
-## 11. Dark mode
+## 11. Dark mode & Theme Guidelines
 
-**Not in v1.**  
-Reserve CSS variables so a future `data-bs-theme="dark"` (or equivalent) can be added without restructuring layouts. See [13-design-system](13-design-system.md) and [10-ideas](10-ideas.md).
+The project supports both **Light Theme** and **Dark Theme** using CSS variables and Bootstrap 5's native `[data-bs-theme="dark"]` attribute (alongside `.dark` class).
+
+- **Theme Persistence:** Stored in `localStorage('portfolio_theme')` and applied via `public/assets/js/app.js`.
+- **Contrast & Hierarchy:**
+  - Light mode uses a clean high-contrast palette (`#030507` text on `#f5f9fb` soft background with `#3B82F6` primary and `#06B6D4` cyan accent).
+  - Dark mode flips to high-contrast dark surfaces (`#f8fafc` text on `#04090b` deep background with `#38bdf8` sky primary and `#2ad9f8` vibrant accent).
+- **Gradients:** Both themes include 3 linear and 3 radial gradients combining Primary, Secondary (`#47566b`), and Accent colors.
+- Full token and gradient definitions: [13-design-system](13-design-system.md).
