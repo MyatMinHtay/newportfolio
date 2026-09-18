@@ -169,4 +169,12 @@ class Project extends Model
 
         return $this->video_url;
     }
+
+    public function getRenderedBodyAttribute(): string
+    {
+        return \Illuminate\Support\Str::markdown($this->body ?? '', [
+            'html_input' => 'strip',
+            'allow_unsafe_links' => false,
+        ]);
+    }
 }

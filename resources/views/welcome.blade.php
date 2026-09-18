@@ -163,7 +163,11 @@
                                 @endforeach
                             </div>
 
-                            <h3 class="h5 fw-bold mb-2" style="color: var(--pf-text);">{{ $project->title }}</h3>
+                            <h3 class="h5 fw-bold mb-2">
+                                <a href="{{ route('projects.show', $project) }}" class="text-decoration-none" style="color: var(--pf-text);">
+                                    {{ $project->title }}
+                                </a>
+                            </h3>
                             <p class="text-muted small mb-4 flex-grow-1">
                                 {{ Str::limit($project->summary, 140) }}
                             </p>
@@ -188,7 +192,9 @@
                                     @endif
                                 </div>
 
-                                <span class="small text-muted">Case study soon</span>
+                                <a href="{{ route('projects.show', $project) }}" class="btn btn-sm btn-outline-secondary">
+                                    Case study <i class="bi bi-arrow-right ms-1"></i>
+                                </a>
                             </div>
                         </div>
                     </div>

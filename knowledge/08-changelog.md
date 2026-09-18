@@ -67,6 +67,24 @@ Keep bullets user/owner-relevant. Link PRs/commits optionally.
 
 ## Entries
 
+## 0.9.0 — 2026-09-18
+
+### Added
+- **Phase 3 Complete:**
+  - Admin **Contact Messages Inbox** (`/admin/messages`) with message telemetry inspection, unread badge counters, toggle read/unread, and deletion.
+  - Admin **Categories** CRUD (`/admin/categories`) for post organization.
+  - Admin **Blog Posts** CRUD (`/admin/posts`) supporting Markdown articles, cover image uploads, and publish date control.
+  - Public **Blog index & article reading view** (`/blog`, `/blog/{slug}`) with category filtering and related posts.
+- **Case Study Detail Page:**
+  - Public **Case Study Detail view** (`/projects/{slug}`) rendering full Markdown bodies (`.pf-prose`), cover media, tech stacks, live links, and demo video modals.
+  - Linked project titles and "Case study" CTA buttons on the public homepage.
+  - Comprehensive feature test suites (`PhaseThreeCrudTest.php`, `PublicContentTest.php`) bringing total test suite to 32 tests (171 assertions passing).
+
+### Changed
+- Added Blog navigation link to public navbar with anchor link compatibility.
+- Added live unread message count badge to admin sidebar navigation.
+- Added `.pf-prose` typography tokens and responsive styles to `public/assets/css/app.css`.
+
 ## 0.8.0 — 2026-09-18
 
 ### Added

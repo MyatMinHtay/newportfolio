@@ -58,4 +58,34 @@ class BlogPost extends Model
     {
         return $query->orderByDesc('published_at')->orderByDesc('id');
     }
+
+    public function hasCoverImage(): bool
+    {
+        return filled($this->cover_image);
+    }
+
+    public function getCoverImageUrlAttribute(): ?string
+    {
+        if (! $this->cover_image) {
+            return null;
+        }
+
+        if (str_starts_with($this->cover_image, 'http://') || str_starts_with($this->cover_image, 'https://')) {
+            return $this->cover_image;
+        }
+
+        if (str_starts_with($this->cover_image, 'assets/') || str_starts_with($this->cover_image, 'storage/')) {
+            return asset(ltrim($this->cover_image, '/'));
+        }
+
+        return \Illuminate\Support\Facades\Storage::disk('public')->url($this->cover_image);
+    }
+
+    public function getRenderedBodyAttribute(): string
+    {
+        return \Illuminate\Support\Str::markdown($this->body ?? '', [
+            'html_input' => 'strip',
+            'allow_unsafe_links' => false,
+        ]);
+    }
 }

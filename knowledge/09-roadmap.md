@@ -110,12 +110,15 @@
 
 ## Phase 3 — Blog + messages
 
-**Status:** Planned
+**Status:** Completed (2026-09-18)
 
-- Categories + Markdown posts
-- Contact inbox
+- Categories CRUD (`/admin/categories`)
+- Markdown blog posts CRUD (`/admin/posts`)
+- Public Blog index and article reading views (`/blog`, `/blog/{slug}`)
+- Contact inbox (`/admin/messages`) with read/unread toggle and delete
+- Public Case Study detail view (`/projects/{slug}`) with full Markdown rendering
 
-**Exit criteria:** Blog + messages operational.
+**Exit criteria:** Blog + messages operational. Met.
 
 ---
 

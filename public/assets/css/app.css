@@ -1103,3 +1103,87 @@ body > main {
         --pf-nav-height: 4rem;
     }
 }
+
+/* --------------------------------------------------------------------------
+ * Markdown & Prose Typography
+ * -------------------------------------------------------------------------- */
+.pf-prose {
+    color: var(--pf-text);
+    font-size: 1.05rem;
+    line-height: 1.75;
+}
+
+.pf-prose h1, .pf-prose h2, .pf-prose h3, .pf-prose h4 {
+    color: var(--pf-text);
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    line-height: 1.35;
+}
+
+.pf-prose h2 {
+    font-size: 1.6rem;
+    border-bottom: 1px solid var(--pf-border);
+    padding-bottom: 0.5rem;
+}
+
+.pf-prose h3 {
+    font-size: 1.3rem;
+}
+
+.pf-prose p {
+    margin-bottom: 1.25rem;
+    color: var(--pf-text);
+}
+
+.pf-prose ul, .pf-prose ol {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+}
+
+.pf-prose li {
+    margin-bottom: 0.5rem;
+}
+
+.pf-prose blockquote {
+    border-left: 4px solid var(--pf-primary);
+    padding: 0.75rem 1.25rem;
+    margin: 1.5rem 0;
+    background-color: var(--pf-surface-muted);
+    border-radius: 0 var(--pf-radius-md) var(--pf-radius-md) 0;
+    font-style: italic;
+    color: var(--pf-text-muted);
+}
+
+.pf-prose code {
+    background-color: var(--pf-surface-muted);
+    color: var(--pf-primary);
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--pf-radius-sm);
+    font-size: 0.9em;
+    border: 1px solid var(--pf-border);
+}
+
+.pf-prose pre {
+    background-color: var(--pf-surface-muted);
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius-md);
+    padding: 1rem;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+}
+
+.pf-prose pre code {
+    background: transparent;
+    padding: 0;
+    border: none;
+    color: var(--pf-text);
+}
+
+.pf-prose img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--pf-radius-md);
+    border: 1px solid var(--pf-border);
+    margin: 1.5rem 0;
+}

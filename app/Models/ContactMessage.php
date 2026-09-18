@@ -35,4 +35,19 @@ class ContactMessage extends Model
     {
         return $query->orderByDesc('created_at');
     }
+
+    public function markAsRead(): void
+    {
+        $this->update(['is_read' => true]);
+    }
+
+    public function markAsUnread(): void
+    {
+        $this->update(['is_read' => false]);
+    }
+
+    public function toggleRead(): void
+    {
+        $this->update(['is_read' => ! $this->is_read]);
+    }
 }
