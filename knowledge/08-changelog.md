@@ -67,6 +67,23 @@ Keep bullets user/owner-relevant. Link PRs/commits optionally.
 
 ## Entries
 
+## 0.8.0 — 2026-09-18
+
+### Added
+- **Phase 1 Complete:**
+  - Admin **Settings** management (`/admin/settings`) with cached key-value store (`Setting::allCached()`, `Setting::set()`).
+  - Admin **Social Links** CRUD (`/admin/social-links`) with Bootstrap Icons and sort ordering.
+- **Phase 2 Complete:**
+  - Admin **Experience** CRUD (`/admin/experiences`) for career milestones, date ranges, and markdown descriptions.
+  - Admin **Resumes** management (`/admin/resumes`) for PDF upload, single-active enforcement, and homepage download button wiring.
+  - Public upload support for PDFs via `PublicUpload::storePdf()`.
+  - Feature test suite (`PhaseOneAndTwoCrudTest.php`) verifying all CRUD actions and public homepage sync (24 tests / 117 assertions passing).
+
+### Changed
+- Reorganized admin navigation into Main, Portfolio, System, and Coming next groups.
+- Synchronized hero social links and active resume download button in `welcome.blade.php`.
+- Updated admin dashboard with resume and social link metrics.
+
 ## 0.7.0 — 2026-09-17
 
 ### Added

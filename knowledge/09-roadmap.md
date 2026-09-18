@@ -84,27 +84,27 @@
 
 ## Phase 1 — Settings + public shell
 
-**Status:** Planned *(starts after Auth/DB foundation approval — may be split)*
+**Status:** Completed (2026-09-18)
 
-- Cached settings CRUD
-- Home / About / Contact
-- Social links in footer
+- Cached settings CRUD (`/admin/settings`)
+- Home / About / Contact with dynamic settings
+- Social links CRUD (`/admin/social-links`) in footer and contact
 
-**Exit criteria:** Public shell live; settings editable.
-
-**Note:** Authentication + database schema land immediately before or as the first slice of Phase 1, per human approval — not inside Foundation Lock.
+**Exit criteria:** Public shell live; settings editable. Met.
 
 ---
 
 ## Phase 2 — Portfolio CRUD
 
-**Status:** In Progress (2026-09-17)
+**Status:** Completed (2026-09-18)
 
-- Experience, Skills, Projects
-- Resume upload / activate / download
-- **Shipped this slice:** Admin CRUD for Projects (case studies), Skills (icon upload), Services; public Services section
+- Experience CRUD (`/admin/experiences`)
+- Skills CRUD with icon uploads (`/admin/skills`)
+- Projects & Case Studies CRUD (`/admin/projects`)
+- Services CRUD (`/admin/services`)
+- Resume PDF upload / activate / public download (`/admin/resumes`)
 
-**Exit criteria:** Core portfolio manageable end-to-end.
+**Exit criteria:** Core portfolio manageable end-to-end. Met.
 
 ---
 

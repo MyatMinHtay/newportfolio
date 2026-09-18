@@ -23,6 +23,8 @@ class DashboardController extends Controller
             'skills_count' => Skill::count(),
             'services_count' => Service::count(),
             'experiences_count' => Experience::count(),
+            'resumes_count' => \App\Models\Resume::count(),
+            'social_links_count' => \App\Models\SocialLink::count(),
             'posts_count' => BlogPost::count(),
             'unread_messages_count' => ContactMessage::unread()->count(),
         ];

@@ -3,19 +3,21 @@
         'Main' => [
             ['label' => 'Dashboard', 'icon' => 'bi-speedometer2', 'route' => 'admin.home'],
         ],
-        'Content' => [
+        'Portfolio' => [
             ['label' => 'Case Studies', 'icon' => 'bi-folder', 'route' => 'admin.projects.index', 'match' => 'admin.projects.*'],
             ['label' => 'Services', 'icon' => 'bi-briefcase', 'route' => 'admin.services.index', 'match' => 'admin.services.*'],
             ['label' => 'Skills', 'icon' => 'bi-stars', 'route' => 'admin.skills.index', 'match' => 'admin.skills.*'],
+            ['label' => 'Experience', 'icon' => 'bi-clock-history', 'route' => 'admin.experiences.index', 'match' => 'admin.experiences.*'],
+            ['label' => 'Resumes', 'icon' => 'bi-file-earmark-pdf', 'route' => 'admin.resumes.index', 'match' => 'admin.resumes.*'],
+        ],
+        'System' => [
+            ['label' => 'Social Links', 'icon' => 'bi-share', 'route' => 'admin.social-links.index', 'match' => 'admin.social-links.*'],
+            ['label' => 'Settings', 'icon' => 'bi-gear', 'route' => 'admin.settings.index', 'match' => 'admin.settings.*'],
         ],
         'Coming next' => [
             ['label' => 'Blog', 'icon' => 'bi-journal-text'],
             ['label' => 'Categories', 'icon' => 'bi-tags'],
-            ['label' => 'Experience', 'icon' => 'bi-clock-history'],
-            ['label' => 'Social', 'icon' => 'bi-share'],
-            ['label' => 'Resume', 'icon' => 'bi-file-earmark-pdf'],
             ['label' => 'Messages', 'icon' => 'bi-envelope'],
-            ['label' => 'Settings', 'icon' => 'bi-gear'],
         ],
     ];
 @endphp

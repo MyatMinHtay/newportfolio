@@ -33,7 +33,7 @@
                         <i class="bi bi-envelope me-2"></i> Get in Touch
                     </a>
                     @if($activeResume)
-                        <a href="{{ asset($activeResume->file_path) }}" class="btn btn-outline-secondary px-3 py-2" target="_blank" download>
+                        <a href="{{ $activeResume->file_url }}" class="btn btn-outline-secondary px-3 py-2" target="_blank" download>
                             <i class="bi bi-download me-1"></i> Resume
                         </a>
                     @endif
@@ -44,8 +44,8 @@
                     <span class="small text-muted me-2">Connect:</span>
                     @if(!empty($socialLinks) && $socialLinks->count())
                         @foreach($socialLinks as $social)
-                            <a href="{{ $social->url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-secondary rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px;" title="{{ $social->platform }}">
-                                <i class="{{ $social->icon ?? 'bi bi-link-45deg' }}"></i>
+                            <a href="{{ $social->url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-secondary rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 36px; height: 36px;" title="{{ $social->label }}">
+                                <i class="{{ str_starts_with($social->icon, 'bi') ? $social->icon : 'bi bi-' . $social->icon }}"></i>
                             </a>
                         @endforeach
                     @else

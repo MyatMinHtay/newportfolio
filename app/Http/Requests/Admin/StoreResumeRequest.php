@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Http\Requests\Admin;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class StoreResumeRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function rules(): array
+    {
+        $maxKb = (int) config('project.upload_limits.pdf_max_kb', 5120);
+
+        return [
+            'title' => ['required', 'string', 'max:160'],
+            'resume_file' => ['required', 'file', 'mimes:pdf', "max:{$maxKb}"],
+            'is_active' => ['sometimes', 'boolean'],
+        ];
+    }
+}

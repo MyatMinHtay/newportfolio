@@ -25,6 +25,13 @@ class PublicUpload
         return $file->storeAs($directory, $filename, 'public');
     }
 
+    public static function storePdf(UploadedFile $file, string $directory): string
+    {
+        $filename = Str::uuid()->toString().'.pdf';
+
+        return $file->storeAs($directory, $filename, 'public');
+    }
+
     public static function delete(?string $path): void
     {
         if (! $path || str_starts_with($path, 'assets/')) {
