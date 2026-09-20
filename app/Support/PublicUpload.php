@@ -13,6 +13,7 @@ class PublicUpload
 {
     public static function storeImage(UploadedFile $file, string $directory): string
     {
+        $directory = trim(str_replace(['..', '\\'], ['', '/'], $directory), '/');
         $allowed = config('project.upload_limits.allowed_image_mimes', ['jpg', 'jpeg', 'png', 'webp']);
         $extension = strtolower((string) ($file->guessExtension() ?: $file->getClientOriginalExtension() ?: 'jpg'));
 
@@ -27,6 +28,7 @@ class PublicUpload
 
     public static function storePdf(UploadedFile $file, string $directory): string
     {
+        $directory = trim(str_replace(['..', '\\'], ['', '/'], $directory), '/');
         $filename = Str::uuid()->toString().'.pdf';
 
         return $file->storeAs($directory, $filename, 'public');

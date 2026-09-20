@@ -1,6 +1,14 @@
 @extends('layouts.public')
 
 @section('title', $project->title . ' — Case Study')
+@section('meta_description', $project->summary ?: \Illuminate\Support\Str::limit(strip_tags($project->rendered_body), 160))
+@if($project->cover_image_url)
+    @section('og_image', $project->cover_image_url)
+@endif
+@section('og_type', 'article')
+@if(!empty($project->tech_stack))
+    @section('meta_keywords', implode(', ', $project->tech_stack) . ', Case Study, ' . \App\Models\Setting::get('meta_keywords', ''))
+@endif
 
 @section('content')
     <div class="py-4 py-lg-5">
@@ -106,6 +114,51 @@
                     @endif
                 </article>
 
+                @if($project->hasGallery())
+                    <section class="mb-5 pt-4 border-top" style="border-color: var(--pf-border) !important;">
+                        <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                            <div>
+                                <span class="badge px-3 py-1 mb-2" style="background-color: var(--pf-primary-subtle); color: var(--pf-primary);">
+                                    Visual Showcase
+                                </span>
+                                <h2 class="h4 fw-bold mb-1" style="color: var(--pf-text);">Media &amp; Screenshots</h2>
+                                <p class="text-muted small mb-0">Click any screenshot to view in full resolution.</p>
+                            </div>
+                            <span class="badge rounded-pill text-muted px-3 py-2 border" style="background-color: var(--pf-surface-muted); border-color: var(--pf-border) !important;">
+                                <i class="bi bi-images me-1"></i> {{ count($project->gallery) }} {{ \Illuminate\Support\Str::plural('image', count($project->gallery)) }}
+                            </span>
+                        </div>
+
+                        <div class="row g-3">
+                            @foreach($project->gallery_urls as $idx => $mediaUrl)
+                                <div class="col-sm-6">
+                                    <div class="card h-100 border-0 shadow-sm overflow-hidden" style="background-color: var(--pf-surface); border: 1px solid var(--pf-border) !important; border-radius: var(--pf-radius-md);">
+                                        <a href="javascript:void(0)"
+                                           class="d-block overflow-hidden position-relative project-gallery-trigger"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#projectGalleryModal"
+                                           data-image-src="{{ $mediaUrl }}"
+                                           data-image-title="{{ $project->title }} — Screenshot {{ $idx + 1 }}"
+                                           style="cursor: pointer; aspect-ratio: 16/10;">
+                                            <img src="{{ $mediaUrl }}"
+                                                 alt="{{ $project->title }} Screenshot {{ $idx + 1 }}"
+                                                 class="w-100 h-100 object-fit-cover"
+                                                 loading="lazy"
+                                                 style="transition: transform var(--pf-duration) var(--pf-ease);">
+                                            <div class="position-absolute inset-0 d-flex align-items-center justify-content-center bg-dark bg-opacity-25 opacity-0 gallery-hover-overlay"
+                                                 style="transition: opacity var(--pf-duration) var(--pf-ease); inset: 0;">
+                                                <span class="btn btn-sm btn-light rounded-pill shadow-sm px-3">
+                                                    <i class="bi bi-zoom-in me-1"></i> Preview
+                                                </span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </section>
+                @endif
+
                 <div class="pt-4 border-top d-flex align-items-center justify-content-between" style="border-color: var(--pf-border) !important;">
                     <a href="{{ route('home') }}#projects" class="btn btn-outline-secondary">
                         <i class="bi bi-arrow-left me-1"></i> Back to all projects
@@ -191,5 +244,52 @@
                 </div>
             </div>
         </div>
+    @endif
+
+    {{-- Gallery Lightbox Modal --}}
+    @if($project->hasGallery())
+        <div class="modal fade" id="projectGalleryModal" tabindex="-1" aria-labelledby="projectGalleryModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content border-0 shadow-lg" style="background-color: var(--pf-surface); border: 1px solid var(--pf-border) !important;">
+                    <div class="modal-header py-3 px-4 border-bottom" style="border-color: var(--pf-border) !important;">
+                        <h2 class="modal-title fs-6 fw-bold mb-0" id="projectGalleryModalLabel" style="color: var(--pf-text);">Screenshot Preview</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-2 p-md-3 text-center d-flex align-items-center justify-content-center" style="min-height: 320px; background-color: var(--pf-surface-muted);">
+                        <img id="projectGalleryModalImage" src="" alt="Full Screenshot Preview" class="img-fluid rounded shadow-sm" style="max-height: 80vh; max-width: 100%; object-fit: contain;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const galleryModal = document.getElementById('projectGalleryModal');
+                if (galleryModal) {
+                    const modalImg = document.getElementById('projectGalleryModalImage');
+                    const modalTitle = document.getElementById('projectGalleryModalLabel');
+
+                    galleryModal.addEventListener('show.bs.modal', function (event) {
+                        const trigger = event.relatedTarget;
+                        if (trigger) {
+                            const src = trigger.getAttribute('data-image-src');
+                            const title = trigger.getAttribute('data-image-title') || 'Screenshot Preview';
+                            if (modalImg && src) {
+                                modalImg.src = src;
+                            }
+                            if (modalTitle) {
+                                modalTitle.textContent = title;
+                            }
+                        }
+                    });
+
+                    galleryModal.addEventListener('hidden.bs.modal', function () {
+                        if (modalImg) {
+                            modalImg.src = '';
+                        }
+                    });
+                }
+            });
+        </script>
     @endif
 @endsection

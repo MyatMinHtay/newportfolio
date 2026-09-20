@@ -60,39 +60,55 @@ document.addEventListener('DOMContentLoaded', function () {
     initPublicNav();
 });
 
+window.showToast = function (message, type, duration) {
+    type = type || 'info';
+    if (typeof Toastify === 'undefined') {
+        console.warn('Toastify not loaded:', message);
+        return;
+    }
+
+    const cfg = window.portfolioToast || {};
+    const defaultDuration = cfg.duration || 3500;
+    const toastDuration = duration !== null && duration !== undefined ? duration : (type === 'error' ? defaultDuration * 2 : defaultDuration);
+
+    const colors = {
+        success: '#16a34a',
+        error: '#dc2626',
+        warning: '#d97706',
+        info: '#0ea5e9'
+    };
+
+    const background = colors[type] || colors.info;
+
+    Toastify({
+        text: String(message),
+        duration: toastDuration,
+        gravity: 'top',
+        position: 'right',
+        close: true,
+        stopOnFocus: true,
+        style: {
+            background: background,
+            color: '#ffffff',
+            borderRadius: '0.5rem',
+            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+            fontWeight: '500',
+            fontSize: '0.9rem',
+            padding: '12px 16px'
+        }
+    }).showToast();
+};
+
 function initToasts() {
-    if (typeof Toastify === 'undefined' || !window.portfolioToast) {
+    if (!window.portfolioToast) {
         return;
     }
 
     const cfg = window.portfolioToast;
-    const duration = cfg.duration || 3000;
-    const types = [
-        { key: 'success', background: '#16a34a' },
-        { key: 'error', background: '#dc2626' },
-        { key: 'warning', background: '#d97706' },
-        { key: 'info', background: '#0ea5e9' }
-    ];
-
-    types.forEach(function (type) {
-        const text = cfg[type.key];
-        if (!text) {
-            return;
+    ['success', 'error', 'warning', 'info'].forEach(function (key) {
+        if (cfg[key]) {
+            window.showToast(cfg[key], key);
         }
-
-        Toastify({
-            text: String(text),
-            duration: type.key === 'error' ? duration * 2 : duration,
-            gravity: 'top',
-            position: 'right',
-            close: true,
-            stopOnFocus: true,
-            style: {
-                background: type.background,
-                color: '#ffffff',
-                borderRadius: '0.5rem'
-            }
-        }).showToast();
     });
 }
 

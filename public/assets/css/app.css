@@ -314,6 +314,37 @@ h4, .pf-h4 { font-size: var(--pf-text-lg); font-weight: var(--pf-font-semibold);
 .pf-admin-content {
     flex: 1;
     padding: var(--pf-space-5);
+    min-width: 0;
+}
+
+@media (max-width: 767.98px) {
+    .pf-admin-content {
+        padding: 1rem 0.75rem;
+    }
+    .pf-admin-topbar {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+    }
+    .pf-admin-footer {
+        padding: 0.75rem;
+    }
+}
+
+.pf-mobile-card-item {
+    padding: 1rem 0.875rem;
+    border-bottom: 1px solid var(--pf-border);
+    background: var(--pf-surface);
+    transition: background-color 0.15s ease;
+}
+
+.pf-mobile-card-item:last-child {
+    border-bottom: none;
+}
+
+.pf-mobile-card-item:hover {
+    background-color: var(--pf-surface-muted);
 }
 
 .pf-admin-footer {
@@ -703,18 +734,7 @@ body > main {
     display: inline-block;
     max-width: 360px;
     margin: 0 auto;
-    padding: 0.75rem 0.75rem 1.75rem;
-}
-
-.pf-hero-avatar-wrapper::before {
-    content: '';
-    position: absolute;
-    inset: -8px;
-    border-radius: 2rem;
-    background: linear-gradient(135deg, var(--pf-primary), var(--pf-accent));
-    opacity: 0.25;
-    filter: blur(12px);
-    z-index: 0;
+    padding: 0.5rem 0.5rem 1.5rem;
 }
 
 .pf-hero-avatar {
@@ -724,10 +744,14 @@ body > main {
     max-width: 340px;
     height: auto;
     border-radius: 1.75rem;
-    border: 3px solid var(--pf-surface);
-    box-shadow: var(--pf-shadow-lg);
-    background-color: var(--pf-surface-muted);
+    border: 1px solid var(--pf-border);
+    box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
+    background-color: var(--pf-surface);
     object-fit: cover;
+}
+
+[data-bs-theme="dark"] .pf-hero-avatar {
+    box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.5);
 }
 
 .pf-hero-floating-badge {
@@ -737,8 +761,8 @@ body > main {
     z-index: 2;
     background: var(--pf-surface);
     border: 1px solid var(--pf-border);
-    border-radius: 1rem;
-    padding: 0.65rem 1rem;
+    border-radius: var(--pf-radius-pill);
+    padding: 0.45rem 0.85rem;
     box-shadow: var(--pf-shadow-md);
     display: flex;
     align-items: center;
@@ -1027,6 +1051,36 @@ body > main {
     box-shadow: 0 0 0 3px var(--pf-accent-subtle);
 }
 
+.pf-timeline-desc {
+    color: var(--pf-text-muted);
+}
+
+.pf-timeline-desc p {
+    margin-bottom: 0.5rem;
+}
+
+.pf-timeline-desc p:last-child {
+    margin-bottom: 0;
+}
+
+.pf-timeline-desc ul {
+    margin-bottom: 0;
+    padding-left: 1.15rem;
+}
+
+.pf-timeline-desc li {
+    margin-bottom: 0.35rem;
+    line-height: 1.5;
+}
+
+.pf-timeline-desc li:last-child {
+    margin-bottom: 0;
+}
+
+.pf-timeline-desc strong {
+    color: var(--pf-text);
+}
+
 /* Contact Channel Pill */
 .pf-contact-channel {
     display: flex;
@@ -1186,4 +1240,89 @@ body > main {
     border-radius: var(--pf-radius-md);
     border: 1px solid var(--pf-border);
     margin: 1.5rem 0;
+}
+
+/* --------------------------------------------------------------------------
+ * Universal Pagination (Design System Tokens)
+ * -------------------------------------------------------------------------- */
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 0;
+    --bs-pagination-bg: var(--pf-surface);
+    --bs-pagination-border-color: var(--pf-border);
+    --bs-pagination-color: var(--pf-text);
+    --bs-pagination-hover-bg: var(--pf-surface-muted);
+    --bs-pagination-hover-border-color: var(--pf-primary);
+    --bs-pagination-hover-color: var(--pf-primary);
+    --bs-pagination-active-bg: var(--pf-primary);
+    --bs-pagination-active-border-color: var(--pf-primary);
+    --bs-pagination-active-color: #ffffff;
+    --bs-pagination-disabled-bg: var(--pf-surface);
+    --bs-pagination-disabled-border-color: var(--pf-border);
+    --bs-pagination-disabled-color: var(--pf-text-muted);
+    --bs-pagination-border-radius: var(--pf-radius-sm);
+}
+
+.pagination .page-item {
+    margin: 0;
+}
+
+.pagination .page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.35rem;
+    height: 2.35rem;
+    padding: 0.375rem 0.75rem;
+    font-size: var(--pf-text-sm);
+    font-weight: 500;
+    color: var(--pf-text);
+    background-color: var(--pf-surface);
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius-sm) !important;
+    text-decoration: none;
+    transition: color var(--pf-duration) var(--pf-ease),
+                background-color var(--pf-duration) var(--pf-ease),
+                border-color var(--pf-duration) var(--pf-ease),
+                box-shadow var(--pf-duration) var(--pf-ease);
+}
+
+.pagination .page-link:hover,
+.pagination .page-link:focus {
+    color: var(--pf-primary);
+    background-color: var(--pf-surface-muted);
+    border-color: var(--pf-primary);
+    box-shadow: 0 2px 6px rgba(var(--pf-primary-rgb), 0.15);
+    z-index: 2;
+}
+
+.pagination .page-item.active .page-link {
+    color: #ffffff;
+    background-color: var(--pf-primary);
+    border-color: var(--pf-primary);
+    box-shadow: 0 3px 8px rgba(var(--pf-primary-rgb), 0.35);
+    font-weight: 600;
+    z-index: 3;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: var(--pf-text-muted);
+    background-color: var(--pf-surface);
+    border-color: var(--pf-border);
+    opacity: 0.5;
+    pointer-events: none;
+    box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+ * Project Gallery Hover & Lightbox
+ * -------------------------------------------------------------------------- */
+.project-gallery-trigger:hover img {
+    transform: scale(1.03);
+}
+
+.project-gallery-trigger:hover .gallery-hover-overlay {
+    opacity: 1 !important;
 }

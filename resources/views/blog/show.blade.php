@@ -1,6 +1,14 @@
 @extends('layouts.public')
 
 @section('title', $post->title . ' — ' . project('site_name', 'Myat Min Htay'))
+@section('meta_description', $post->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->rendered_body), 160))
+@if($post->cover_image_url)
+    @section('og_image', $post->cover_image_url)
+@endif
+@section('og_type', 'article')
+@if($post->category)
+    @section('meta_keywords', $post->category->name . ', Blog, ' . \App\Models\Setting::get('meta_keywords', ''))
+@endif
 
 @section('content')
     <div class="py-4 py-lg-5">

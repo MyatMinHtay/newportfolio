@@ -22,6 +22,42 @@
             </div>
         @endif
 
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Media Gallery (Screenshots)</label>
+            <input type="file" name="gallery_images[]" multiple accept="image/jpeg,image/png,image/webp" class="form-control form-control-sm @error('gallery_images') is-invalid @enderror @error('gallery_images.*') is-invalid @enderror">
+            <div class="form-text small">Select up to 10 images. JPG, PNG, or WebP. Max 5MB per image.</div>
+            @error('gallery_images')
+                <div class="invalid-feedback d-block">{{ $message }}</div>
+            @enderror
+            @error('gallery_images.*')
+                <div class="invalid-feedback d-block">{{ $message }}</div>
+            @enderror
+        </div>
+
+        @if ($project?->hasGallery())
+            <div class="mb-3">
+                <label class="form-label small fw-semibold text-muted d-block mb-2">Current Gallery Images (check to remove)</label>
+                <div class="row g-2">
+                    @foreach ($project->gallery as $index => $path)
+                        @php
+                            $url = str_starts_with($path, 'http') ? $path : (str_starts_with($path, 'assets/') ? asset($path) : \Illuminate\Support\Facades\Storage::disk('public')->url($path));
+                        @endphp
+                        <div class="col-6">
+                            <div class="card h-100 border p-1 position-relative">
+                                <img src="{{ $url }}" alt="Gallery thumbnail" class="img-fluid rounded" style="height: 75px; width: 100%; object-fit: cover;">
+                                <div class="form-check mt-1 ms-1">
+                                    <input class="form-check-input" type="checkbox" name="remove_gallery[]" value="{{ $path }}" id="remove_gallery_{{ $index }}">
+                                    <label class="form-check-label small text-danger" for="remove_gallery_{{ $index }}" style="font-size: 0.75rem;">
+                                        Remove
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
         <x-form.input name="project_url" label="Live URL" :value="$project->project_url ?? null" help="Full URL or / for this site." />
         <x-form.input name="repo_url" label="Repo URL" :value="$project->repo_url ?? null" />
         <x-form.input name="video_url" label="Video URL" :value="$project->video_url ?? null" />

@@ -30,7 +30,7 @@ class HomeTest extends TestCase
         $response->assertSee('Linux Basic');
         $response->assertDontSee('Vue.js');
         $response->assertDontSee('Angular');
-        $response->assertDontSee('Nexus VPN Panel');
+        $response->assertSee('Nexus VPN Panel');
     }
 
     public function test_contact_form_stores_message_successfully(): void
@@ -62,5 +62,26 @@ class HomeTest extends TestCase
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['name', 'email', 'message']);
+    }
+
+    public function test_experience_markdown_list_is_rendered_on_homepage(): void
+    {
+        \App\Models\Experience::create([
+            'company' => 'Qualy Myanmar',
+            'role' => 'Frontend Engineer',
+            'start_date' => '2024-09-01',
+            'description' => "- Developed interfaces using **HTML, CSS, JavaScript**.\n- Built **WordPress websites**.",
+            'is_published' => true,
+            'sort_order' => 0,
+        ]);
+
+        $response = $this->get('/');
+
+        $response->assertOk();
+        $response->assertSee('Frontend Engineer');
+        $response->assertSee('Qualy Myanmar');
+        $response->assertSee('<ul>', false);
+        $response->assertSee('<strong>HTML, CSS, JavaScript</strong>', false);
+        $response->assertSee('<strong>WordPress websites</strong>', false);
     }
 }

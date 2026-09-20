@@ -9,7 +9,7 @@
 
 return [
 
-    'site_name' => env('PROJECT_SITE_NAME', 'Portfolio'),
+    'site_name' => env('PROJECT_SITE_NAME', 'Myat Min Htay'),
 
     'author' => env('PROJECT_AUTHOR', ''),
 
@@ -21,7 +21,7 @@ return [
     /*
     | Application/docs release label (also track in knowledge/08-changelog.md).
     */
-    'version' => env('PROJECT_VERSION', '0.7.0'),
+    'version' => env('PROJECT_VERSION', '0.11.0'),
 
     /*
     | Toastify default duration in milliseconds (ADR-016 / knowledge/27-toast-guidelines.md).

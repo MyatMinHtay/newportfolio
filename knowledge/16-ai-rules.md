@@ -58,6 +58,11 @@ Additional notification rule:
 
 - Toastify = global notifications; Bootstrap Alert = inline only ([27-toast-guidelines](27-toast-guidelines.md)).
 
+### Terminal Command Safety Policy
+- Run safe terminal commands automatically without asking.
+- Always ask for confirmation before running any command that modifies or drops databases, resets migrations, or deletes files (e.g., `migrate:fresh`, `db:wipe`, `drop`, `rm -rf`).
+
+
 ---
 
 ## 3. Before writing any code

@@ -67,7 +67,58 @@ Keep bullets user/owner-relevant. Link PRs/commits optionally.
 
 ## Entries
 
-## 0.9.0 — 2026-09-18
+## 0.11.0 — 2026-09-20
+
+### Added
+- **Phase 4 (Polish) Complete**:
+  - **Enhanced Admin Dashboard (`/admin`)**:
+    - Comprehensive metric counters: Published vs Featured case studies breakdown, Published vs Draft blog posts breakdown, and Skills/Services/Roles summary.
+    - Active Resume status widget with direct PDF preview and management links.
+    - Quick Action toolbar ("New case study", "New post", "Settings").
+    - Two-column live activity overview displaying Recent Case Studies, Recent Technical Blog Posts, and Recent Contact Inquiries with unread indicators.
+  - **Featured & Publish UX**:
+    - Filter tabs for both Case Studies and Blog Posts (`All`, `Published`, `Hidden/Draft`, `Featured`).
+    - One-click status toggles for publishing and featuring without opening the edit form (`projects.toggle-publish`, `projects.toggle-featured`, `posts.toggle-publish`).
+    - Direct "View live" links for published case studies and blog articles.
+  - **Upload Hardening & Cleanup**:
+    - Strict allowed image MIME constraints (`jpg, jpeg, png, webp`) across blog and project form requests.
+    - Automatic deletion of superseded cover images upon updating case studies.
+    - Directory sanitization and traversal prevention in `PublicUpload` helper.
+  - **Universal Empty States**:
+    - Public homepage graceful fallback states for projects, skills, and experiences.
+    - Contextual category empty state in blog index (`/blog?category=...`) with "View All Articles" return button.
+    - Detailed empty states for all admin filter views.
+  - **Automated Test Suite**:
+    - `PhaseFourPolishTest.php` (8 tests, 40 assertions) verifying one-click toggles, status filters, upload cleanup, and dashboard metrics.
+    - Full test suite expanded to 46 tests (245 assertions) passing with 100% success.
+
+## 0.10.0 — 2026-09-19
+
+### Added
+- **SEO Management in Admin Settings (`/admin/settings`)**:
+  - Configurable Meta Description, Meta Keywords, Meta Author, Twitter / X handle, and Search Engine Visibility toggle (`robots_indexing`).
+- **Dynamic SEO Meta Component (`<x-layout.seo-meta />`)**:
+  - Injected into public layout `<head>` with automatic fallbacks to admin settings.
+  - Page-specific overrides for Blog post (`/blog/{slug}`) and Case study (`/projects/{slug}`) articles.
+  - Open Graph tags (`og:title`, `og:description`, `og:image`, `og:type`, `og:url`, `og:site_name`) and Twitter Card tags (`twitter:card`, `twitter:creator`, `twitter:site`).
+  - Canonical URL links on every public page.
+- **Dynamic & Extensible Sitemap (`/sitemap.xml`)**:
+  - `SitemapService` generates standard Sitemap Protocol 0.9 XML.
+  - Automatically indexes core routes (`/`, `/blog`), all published projects, and published blog posts (excluding drafts/hidden items).
+  - Built-in runtime provider registry (`SitemapService::registerProvider()`) allowing upcoming routes/features to be indexed cleanly.
+- **Dynamic `robots.txt` (`/robots.txt`)**:
+  - Routed via `SeoController@robots` to respect the Admin "Search Engine Visibility" setting.
+  - Disallows crawler indexing entirely when indexing is disabled.
+  - When enabled, protects `/admin/`, `/login`, `/logout`, and auth routes, while declaring the dynamic `Sitemap:` endpoint.
+- **Automated Test Suite**:
+  - `SeoTest.php` feature test suite (6 tests, 34 assertions) verifying robots directives, sitemap XML validity, extensible providers, public meta tags, and admin settings update.
+  - Total test suite expanded to 38 tests (205 assertions) passing.
+
+### Changed
+- Ignored `oldportfolio/` folder in `.gitignore`.
+- Removed static `public/robots.txt` to allow dynamic Laravel routing.
+
+
 
 ### Added
 - **Phase 3 Complete:**

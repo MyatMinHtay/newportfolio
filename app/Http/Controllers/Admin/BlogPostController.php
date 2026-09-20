@@ -9,19 +9,51 @@ use App\Models\BlogPost;
 use App\Models\Category;
 use App\Support\PublicUpload;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class BlogPostController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $posts = BlogPost::query()
-            ->with(['category', 'user'])
-            ->orderByDesc('id')
-            ->paginate((int) project('pagination_size', 15));
+        $status = $request->query('status');
+        $query = BlogPost::query()->with(['category', 'user']);
 
-        return view('admin.posts.index', compact('posts'));
+        if ($status === 'published') {
+            $query->where('is_published', true);
+        } elseif ($status === 'draft') {
+            $query->where('is_published', false);
+        }
+
+        $posts = $query
+            ->orderByDesc('id')
+            ->paginate((int) project('pagination_size', 15))
+            ->withQueryString();
+
+        $counts = [
+            'all' => BlogPost::count(),
+            'published' => BlogPost::where('is_published', true)->count(),
+            'draft' => BlogPost::where('is_published', false)->count(),
+        ];
+
+        return view('admin.posts.index', compact('posts', 'status', 'counts'));
+    }
+
+    public function togglePublish(BlogPost $post): RedirectResponse
+    {
+        $newStatus = ! $post->is_published;
+        $data = ['is_published' => $newStatus];
+
+        if ($newStatus && ! $post->published_at) {
+            $data['published_at'] = now();
+        }
+
+        $post->update($data);
+
+        $statusText = $newStatus ? 'published' : 'moved to drafts';
+
+        return back()->with('toast_success', "Blog post is now {$statusText}.");
     }
 
     public function create(): View

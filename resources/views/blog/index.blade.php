@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Articles & Tutorials — ' . project('site_name', 'Myat Min Htay'))
+@section('meta_description', 'Technical articles, software architecture insights, and Laravel best practices by ' . project('site_name', 'Myat Min Htay') . '.')
 
 @section('content')
     <div class="py-4 py-lg-5">
@@ -33,11 +34,19 @@
                 <div class="rounded-circle p-3 d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px; background-color: var(--pf-surface-muted); color: var(--pf-text-muted);">
                     <i class="bi bi-journal-text fs-2"></i>
                 </div>
-                <h3 class="h5 fw-bold mb-2">No articles published yet</h3>
-                <p class="text-muted">Technical tutorials and software write-ups will be published here soon.</p>
-                <a href="{{ route('home') }}" class="btn btn-outline-primary mt-2">
-                    <i class="bi bi-arrow-left me-1"></i> Return Home
-                </a>
+                @if($currentCategory)
+                    <h3 class="h5 fw-bold mb-2">No articles found in &ldquo;{{ $currentCategory->name }}&rdquo;</h3>
+                    <p class="text-muted">No technical write-ups are published under this category yet.</p>
+                    <a href="{{ route('blog.index') }}" class="btn btn-outline-primary mt-2">
+                        <i class="bi bi-arrow-left me-1"></i> View All Articles
+                    </a>
+                @else
+                    <h3 class="h5 fw-bold mb-2">No articles published yet</h3>
+                    <p class="text-muted">Technical tutorials and software write-ups will be published here soon.</p>
+                    <a href="{{ route('home') }}" class="btn btn-outline-primary mt-2">
+                        <i class="bi bi-arrow-left me-1"></i> Return Home
+                    </a>
+                @endif
             </div>
         @else
             <div class="row g-4">
@@ -89,9 +98,7 @@
                 @endforeach
             </div>
 
-            <div class="mt-5 d-flex justify-content-center">
-                {{ $posts->links() }}
-            </div>
+            <x-pagination :paginator="$posts" class="mt-5" />
         @endif
     </div>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
+use App\Services\EmailService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -10,9 +11,9 @@ use Illuminate\Http\Request;
 class ContactController extends Controller
 {
     /**
-     * Store an incoming contact message from the portfolio.
+     * Store an incoming contact message from the portfolio and notify via email.
      */
-    public function store(Request $request): JsonResponse|RedirectResponse
+    public function store(Request $request, EmailService $emailService): JsonResponse|RedirectResponse
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:100'],
@@ -21,7 +22,7 @@ class ContactController extends Controller
             'message' => ['required', 'string', 'max:5000'],
         ]);
 
-        ContactMessage::create([
+        $contactMessage = ContactMessage::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'subject' => $validated['subject'] ?? 'Portfolio Inquiry',
@@ -30,6 +31,9 @@ class ContactController extends Controller
             'user_agent' => $request->userAgent(),
             'is_read' => false,
         ]);
+
+        $emailService->sendContactNotification($contactMessage);
+        $emailService->sendVisitorAutoReply($contactMessage);
 
         $message = 'Thank you for reaching out! Your message has been sent successfully.';
 

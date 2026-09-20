@@ -16,8 +16,10 @@
 
         {{-- Mobile offcanvas sidebar --}}
         <div class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="adminOffcanvas" aria-labelledby="adminOffcanvasLabel">
-            <div class="offcanvas-header">
-                <h2 class="offcanvas-title h5" id="adminOffcanvasLabel">Admin</h2>
+            <div class="offcanvas-header border-bottom py-3">
+                <h2 class="offcanvas-title h6 mb-0 fw-bold text-body" id="adminOffcanvasLabel">
+                    <i class="bi bi-palette2 text-primary me-2"></i>Portfolio CMS
+                </h2>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body p-0">

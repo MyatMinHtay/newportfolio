@@ -495,35 +495,3 @@
     </section>
 @endsection
 
-@push('scripts')
-<script>
-    function showToast(message, type) {
-        if (typeof Toastify === 'undefined') {
-            alert(message);
-            return;
-        }
-
-        let bg = 'var(--pf-primary)';
-        if (type === 'success') bg = 'var(--pf-success)';
-        if (type === 'error') bg = 'var(--pf-danger)';
-        if (type === 'warning') bg = 'var(--pf-warning)';
-        if (type === 'info') bg = 'var(--pf-accent)';
-
-        Toastify({
-            text: message,
-            duration: 3500,
-            close: true,
-            gravity: "top",
-            position: "right",
-            stopOnFocus: true,
-            style: {
-                background: bg,
-                color: (type === 'info') ? '#030507' : '#ffffff',
-                borderRadius: "var(--pf-radius)",
-                boxShadow: "var(--pf-shadow-md)",
-                fontWeight: "500"
-            }
-        }).showToast();
-    }
-</script>
-@endpush

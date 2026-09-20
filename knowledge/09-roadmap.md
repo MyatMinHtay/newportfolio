@@ -124,21 +124,21 @@
 
 ## Phase 4 — Polish
 
-**Status:** Planned
+**Status:** Completed (2026-09-20)
 
-- Dashboard counts
-- Featured / publish UX
-- Upload hardening
-- Basic SEO ([18-seo](18-seo.md))
-- Empty states everywhere
+- Dashboard counts — Completed (Breakdown metrics, active resume banner, recent case studies, blog posts, and inquiries activity feeds)
+- Featured / publish UX — Completed (Status filter pills, one-click toggle actions for publish and featured, live view links)
+- Upload hardening — Completed (Strict allowed mimes, directory sanitization, old cover image deletion on update)
+- Basic SEO ([18-seo](18-seo.md)) — Completed (Admin keywords/meta, Open Graph, dynamic robots.txt, extensible sitemap.xml)
+- Empty states everywhere — Completed (Public homepage forelse fallbacks, category-aware blog empty state, admin table filters)
 
-**Exit criteria:** Production-candidate UX.
+**Exit criteria:** Production-candidate UX. Met.
 
 ---
 
 ## Phase 5 — Docs sync + deploy
 
-**Status:** Planned
+**Status:** In Progress
 
 - Sync knowledge with shipped code (component statuses, changelog)
 - Production notes in [07-deployment](07-deployment.md)

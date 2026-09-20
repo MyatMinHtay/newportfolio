@@ -25,6 +25,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('home');
 
     // Portfolio & Content
+    Route::post('projects/{project}/toggle-publish', [ProjectController::class, 'togglePublish'])->name('projects.toggle-publish');
+    Route::post('projects/{project}/toggle-featured', [ProjectController::class, 'toggleFeatured'])->name('projects.toggle-featured');
     Route::resource('projects', ProjectController::class)->except(['show']);
     Route::resource('skills', SkillController::class)->except(['show']);
     Route::resource('services', ServiceController::class)->except(['show']);
@@ -35,6 +37,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('resumes', ResumeController::class)->except(['show']);
 
     // Blog & Tutorials
+    Route::post('posts/{post}/toggle-publish', [BlogPostController::class, 'togglePublish'])->name('posts.toggle-publish');
     Route::resource('categories', CategoryController::class)->except(['show']);
     Route::resource('posts', BlogPostController::class)->except(['show']);
 

@@ -41,4 +41,12 @@ class Experience extends Model
     {
         return $query->orderBy('sort_order')->orderByDesc('start_date');
     }
+
+    public function getRenderedDescriptionAttribute(): string
+    {
+        return \Illuminate\Support\Str::markdown($this->description ?? '', [
+            'html_input' => 'strip',
+            'allow_unsafe_links' => false,
+        ]);
+    }
 }

@@ -91,6 +91,8 @@ class Skill extends Model
             'socialite' => 'laravel.png',
             'linux basic' => 'skill.png',
             'linux' => 'skill.png',
+            'n8n' => 'skill.png',
+            'rest api' => 'skill.png',
         ];
 
         $key = strtolower(trim($this->name));

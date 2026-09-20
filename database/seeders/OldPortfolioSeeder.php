@@ -30,6 +30,11 @@ class OldPortfolioSeeder extends Seeder
             'freelance_status' => 'Available for Projects',
             'birthday' => '2001-12-06',
             'education' => '2nd year in physics (YDNB)',
+            'meta_description' => 'Portfolio of Myat Min Htay — Full Stack Website Developer specializing in Laravel, PHP, and modern web application development.',
+            'meta_keywords' => 'Myat Min Htay, Web Developer, Full Stack Developer, Laravel, PHP, MySQL, Portfolio, Myanmar',
+            'meta_author' => 'Myat Min Htay',
+            'twitter_handle' => '@myatminhtay',
+            'robots_indexing' => '1',
         ];
 
         foreach ($settings as $key => $value) {

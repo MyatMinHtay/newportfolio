@@ -1,6 +1,12 @@
 @extends('layouts.public')
 
 @section('title', ($settings['site_title'] ?? 'Myat Min Htay — Full Stack Website Developer'))
+@if(!empty($settings['meta_description']))
+@section('meta_description', $settings['meta_description'])
+@endif
+@if(!empty($settings['meta_keywords']))
+@section('meta_keywords', $settings['meta_keywords'])
+@endif
 
 @section('content')
     {{-- ==========================================
@@ -67,13 +73,12 @@
                 <div class="pf-hero-avatar-wrapper">
                     <img src="{{ asset('assets/img/profile.png') }}" alt="{{ $settings['site_name'] ?? 'Myat Min Htay' }}" class="pf-hero-avatar img-fluid">
                     <div class="pf-hero-floating-badge">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; background-color: var(--pf-primary-subtle); color: var(--pf-primary);">
-                            <i class="bi bi-code-slash"></i>
+                        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 30px; height: 30px; background-color: var(--pf-primary-subtle); color: var(--pf-primary);">
+                            <i class="bi bi-code-slash" style="font-size: 0.85rem;"></i>
                         </div>
-                        <div class="text-start">
-                            <div class="small fw-bold" style="color: var(--pf-text);">Full Stack</div>
-                            <div class="text-muted" style="font-size: 0.75rem;">Laravel &bull; MySQL &bull; AWS</div>
-                        </div>
+                        <span class="fw-semibold text-nowrap" style="color: var(--pf-text); font-size: 0.8125rem;">
+                            Laravel &bull; PHP &bull; MySQL
+                        </span>
                     </div>
                 </div>
             </div>
@@ -131,7 +136,7 @@
         </div>
 
         <div class="row g-4" id="projectsGrid">
-            @foreach($projects as $project)
+            @forelse($projects as $project)
                 @php
                     $stack = is_array($project->tech_stack) ? $project->tech_stack : [];
                 @endphp
@@ -199,7 +204,17 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="col-12 text-center py-5">
+                    <div class="rounded-circle p-3 d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px; background-color: var(--pf-surface-muted); color: var(--pf-text-muted);">
+                        <i class="bi bi-folder2-open fs-2"></i>
+                    </div>
+                    <h3 class="h5 fw-bold mb-2">Projects coming soon</h3>
+                    <p class="text-muted small" style="max-width: 480px; margin: 0 auto;">
+                        Featured case studies and production code highlights are being curated. Check back shortly.
+                    </p>
+                </div>
+            @endforelse
         </div>
     </section>
 
@@ -277,6 +292,10 @@
                     </div>
                 @endforeach
             </div>
+        @else
+            <div class="text-center py-4">
+                <p class="text-muted small">Technical skills will be published soon.</p>
+            </div>
         @endif
     </section>
 
@@ -303,7 +322,9 @@
                                         </span>
                                     </div>
                                     <div class="small fw-medium mb-2" style="color: var(--pf-primary);">{{ $exp->company }}</div>
-                                    <p class="text-muted small mb-0">{{ $exp->description }}</p>
+                                    <div class="pf-timeline-desc small text-muted mb-0">
+                                        {!! $exp->rendered_description !!}
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -611,27 +632,15 @@
                     const data = await response.json();
 
                     if (response.ok && data.success) {
-                        if (typeof showToast === 'function') {
-                            showToast(data.message || 'Message sent successfully!', 'success');
-                        } else {
-                            alert(data.message || 'Message sent successfully!');
-                        }
+                        window.showToast(data.message || 'Message sent successfully!', 'success');
                         contactForm.reset();
                     } else {
                         const errMsg = data.message || 'Validation failed. Please check your input fields.';
-                        if (typeof showToast === 'function') {
-                            showToast(errMsg, 'error');
-                        } else {
-                            alert(errMsg);
-                        }
+                        window.showToast(errMsg, 'error');
                     }
                 } catch (err) {
                     console.error('Contact submit error:', err);
-                    if (typeof showToast === 'function') {
-                        showToast('Failed to send message. Please try again or email directly.', 'error');
-                    } else {
-                        alert('Failed to send message. Please email directly.');
-                    }
+                    window.showToast('Failed to send message. Please try again or email directly.', 'error');
                 } finally {
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalBtnText;

@@ -25,6 +25,8 @@ class StoreProjectRequest extends FormRequest
             'summary' => ['required', 'string', 'max:2000'],
             'body' => ['nullable', 'string'],
             'cover_image' => ['nullable', 'image', 'mimes:'.$mimes, 'max:'.$imageMax],
+            'gallery_images' => ['nullable', 'array', 'max:10'],
+            'gallery_images.*' => ['image', 'mimes:'.$mimes, 'max:5120'],
             'project_url' => ['nullable', 'string', 'max:255'],
             'repo_url' => ['nullable', 'string', 'max:255'],
             'video_url' => ['nullable', 'string', 'max:255'],

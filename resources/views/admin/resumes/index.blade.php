@@ -21,7 +21,7 @@
         </x-slot:actions>
     </x-layout.page-header>
 
-    <x-card class="shadow-sm">
+    <x-card class="shadow-sm overflow-hidden">
         @if ($resumes->isEmpty())
             <x-empty-state
                 icon="bi-file-earmark-pdf"
@@ -31,64 +31,114 @@
                 :action-url="route('admin.resumes.create')"
             />
         @else
-            <x-table>
-                <thead class="table-light">
-                    <tr>
-                        <th scope="col" style="width: 48px;"></th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Uploaded</th>
-                        <th scope="col" style="width: 140px;">Status</th>
-                        <th scope="col" class="text-end" style="width: 240px;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($resumes as $resume)
-                        <tr>
-                            <td class="text-center">
-                                <i class="bi bi-file-earmark-pdf text-danger" style="font-size: 1.5rem;"></i>
-                            </td>
-                            <td>
-                                <div class="fw-semibold">{{ $resume->title }}</div>
-                                <div class="small">
-                                    <a href="{{ $resume->file_url }}" target="_blank" class="text-muted text-decoration-none">
-                                        <i class="bi bi-download me-1"></i> Download PDF
-                                    </a>
-                                </div>
-                            </td>
-                            <td class="small text-muted">
-                                {{ $resume->created_at->format('M d, Y') }}
-                            </td>
-                            <td>
-                                @if ($resume->is_active)
-                                    <x-badge variant="success">Active on Site</x-badge>
-                                @else
-                                    <x-badge variant="secondary">Archived</x-badge>
-                                @endif
-                            </td>
-                            <td class="text-end">
-                                @if (!$resume->is_active)
-                                    <form action="{{ route('admin.resumes.activate', $resume) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-outline-success me-1">
-                                            <i class="bi bi-check-circle me-1"></i> Activate
-                                        </button>
-                                    </form>
-                                @endif
+            {{-- Mobile List View (< 768px) --}}
+            <div class="d-md-none">
+                @foreach ($resumes as $resume)
+                    <div class="pf-mobile-card-item">
+                        <div class="d-flex align-items-center justify-content-between mb-1">
+                            <span class="small text-muted">{{ $resume->created_at->format('M d, Y') }}</span>
+                            @if ($resume->is_active)
+                                <x-badge variant="success">Active on Site</x-badge>
+                            @else
+                                <x-badge variant="secondary">Archived</x-badge>
+                            @endif
+                        </div>
 
-                                <x-button variant="outline-primary" size="sm" :href="route('admin.resumes.edit', $resume)">
-                                    Edit
-                                </x-button>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <i class="bi bi-file-earmark-pdf text-danger fs-4 flex-shrink-0"></i>
+                            <div class="text-truncate">
+                                <div class="fw-semibold text-truncate">{{ $resume->title }}</div>
+                                <a href="{{ $resume->file_url }}" target="_blank" class="small text-muted text-decoration-none">
+                                    <i class="bi bi-download me-1"></i> Preview PDF
+                                </a>
+                            </div>
+                        </div>
 
-                                <form action="{{ route('admin.resumes.destroy', $resume) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this resume file?');">
+                        <div class="d-flex align-items-center justify-content-end gap-2 pt-1">
+                            @if (!$resume->is_active)
+                                <form action="{{ route('admin.resumes.activate', $resume) }}" method="POST" class="d-inline">
                                     @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-success py-1">
+                                        <i class="bi bi-check-circle me-1"></i> Activate
+                                    </button>
                                 </form>
-                            </td>
+                            @endif
+
+                            <x-button variant="outline-primary" size="sm" class="py-1" :href="route('admin.resumes.edit', $resume)">
+                                Edit
+                            </x-button>
+
+                            <form action="{{ route('admin.resumes.destroy', $resume) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this resume file?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger py-1">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            {{-- Desktop Table View (>= 768px) --}}
+            <div class="d-none d-md-block">
+                <x-table>
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" style="width: 48px;"></th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Uploaded</th>
+                            <th scope="col" style="width: 140px;">Status</th>
+                            <th scope="col" class="text-end" style="width: 240px;">Actions</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </x-table>
+                    </thead>
+                    <tbody>
+                        @foreach ($resumes as $resume)
+                            <tr>
+                                <td class="text-center">
+                                    <i class="bi bi-file-earmark-pdf text-danger" style="font-size: 1.5rem;"></i>
+                                </td>
+                                <td>
+                                    <div class="fw-semibold">{{ $resume->title }}</div>
+                                    <div class="small">
+                                        <a href="{{ $resume->file_url }}" target="_blank" class="text-muted text-decoration-none">
+                                            <i class="bi bi-download me-1"></i> Download PDF
+                                        </a>
+                                    </div>
+                                </td>
+                                <td class="small text-muted">
+                                    {{ $resume->created_at->format('M d, Y') }}
+                                </td>
+                                <td>
+                                    @if ($resume->is_active)
+                                        <x-badge variant="success">Active on Site</x-badge>
+                                    @else
+                                        <x-badge variant="secondary">Archived</x-badge>
+                                    @endif
+                                </td>
+                                <td class="text-end">
+                                    @if (!$resume->is_active)
+                                        <form action="{{ route('admin.resumes.activate', $resume) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-outline-success me-1">
+                                                <i class="bi bi-check-circle me-1"></i> Activate
+                                            </button>
+                                        </form>
+                                    @endif
+
+                                    <x-button variant="outline-primary" size="sm" :href="route('admin.resumes.edit', $resume)">
+                                        Edit
+                                    </x-button>
+
+                                    <form action="{{ route('admin.resumes.destroy', $resume) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this resume file?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </x-table>
+            </div>
 
             <div class="p-3 border-top">
                 <x-pagination :paginator="$resumes" />

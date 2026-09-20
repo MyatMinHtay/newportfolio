@@ -28,6 +28,12 @@ class UpdateSettingRequest extends FormRequest
             'freelance_status' => ['nullable', 'string', 'max:100'],
             'birthday' => ['nullable', 'string', 'max:50'],
             'education' => ['nullable', 'string', 'max:200'],
+            'meta_description' => ['nullable', 'string', 'max:500'],
+            'meta_keywords' => ['nullable', 'string', 'max:500'],
+            'meta_author' => ['nullable', 'string', 'max:120'],
+            'twitter_handle' => ['nullable', 'string', 'max:80'],
+            'og_image' => ['nullable', 'string', 'max:255'],
+            'robots_indexing' => ['nullable', 'in:0,1'],
         ];
     }
 }

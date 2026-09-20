@@ -18,6 +18,7 @@ class Project extends Model
         'summary',
         'body',
         'cover_image',
+        'gallery',
         'project_url',
         'repo_url',
         'video_url',
@@ -32,6 +33,7 @@ class Project extends Model
     protected function casts(): array
     {
         return [
+            'gallery' => 'array',
             'tech_stack' => 'array',
             'is_featured' => 'boolean',
             'is_published' => 'boolean',
@@ -66,6 +68,11 @@ class Project extends Model
         return filled($this->cover_image);
     }
 
+    public function hasGallery(): bool
+    {
+        return ! empty($this->gallery) && is_array($this->gallery) && count($this->gallery) > 0;
+    }
+
     public function isFreelance(): bool
     {
         return in_array($this->slug, ['dream-comic', 'km-explorer', 'travel-and-tour'], true);
@@ -93,6 +100,7 @@ class Project extends Model
             'dream-comic' => 'comic',
             'km-explorer', 'travel-and-tour' => 'travel',
             'laravel-portfolio-cms' => 'cms',
+            'pfinance-saas' => 'finance',
             'dev-toolkit' => 'toolkit',
             default => 'default',
         };
@@ -106,6 +114,7 @@ class Project extends Model
             'comic' => 'bi-journal-richtext',
             'travel' => 'bi-geo-alt',
             'cms' => 'bi-layout-text-window',
+            'finance' => 'bi-cash-coin',
             'toolkit' => 'bi-tools',
             default => 'bi-code-slash',
         };
@@ -144,6 +153,28 @@ class Project extends Model
         }
 
         return asset('assets/img/projects/thumbnail1.png');
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function getGalleryUrlsAttribute(): array
+    {
+        if (! $this->hasGallery()) {
+            return [];
+        }
+
+        return array_values(array_map(function (string $path): string {
+            if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+                return $path;
+            }
+
+            if (str_starts_with($path, 'assets/') || str_starts_with($path, 'storage/')) {
+                return asset(ltrim($path, '/'));
+            }
+
+            return Storage::disk('public')->url($path);
+        }, $this->gallery));
     }
 
     public function getEmbedUrlAttribute(): ?string

@@ -76,6 +76,57 @@
                         help="City, Country (e.g., Mandalay, Myanmar)."
                     />
                 </x-card>
+
+                <x-card class="shadow-sm mt-4">
+                    <h5 class="card-title fw-bold mb-3">
+                        <i class="bi bi-search me-2 text-primary"></i> Search Engine Optimization (SEO)
+                    </h5>
+
+                    <x-form.textarea
+                        name="meta_description"
+                        label="Meta Description (Default)"
+                        :value="$settings['meta_description'] ?? ''"
+                        :rows="3"
+                        help="Recommended 150-160 characters. Used in Google search result snippets."
+                    />
+
+                    <x-form.input
+                        name="meta_keywords"
+                        label="Meta Keywords"
+                        :value="$settings['meta_keywords'] ?? ''"
+                        help="Comma-separated keywords (e.g. Web Developer, Laravel, PHP, Portfolio)."
+                    />
+
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <x-form.input
+                                name="meta_author"
+                                label="Meta Author"
+                                :value="$settings['meta_author'] ?? ''"
+                                help="E.g. Myat Min Htay"
+                            />
+                        </div>
+                        <div class="col-sm-6">
+                            <x-form.input
+                                name="twitter_handle"
+                                label="Twitter / X Handle"
+                                :value="$settings['twitter_handle'] ?? ''"
+                                help="E.g. @myatminhtay"
+                            />
+                        </div>
+                    </div>
+
+                    <x-form.select
+                        name="robots_indexing"
+                        label="Search Engine Visibility"
+                        :options="[
+                            '1' => 'Allow search engines to index this site (index, follow)',
+                            '0' => 'Discourage search engines from indexing this site (noindex, nofollow)',
+                        ]"
+                        :selected="$settings['robots_indexing'] ?? '1'"
+                        help="Controls robots.txt and meta robots tags."
+                    />
+                </x-card>
             </div>
 
             <div class="col-lg-6">
