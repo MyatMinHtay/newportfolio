@@ -10,25 +10,27 @@
 
 | Field | Value |
 |-------|-------|
-| **Version** | `1.1.0` |
-| **Status** | **LOCKED** (Foundation Lock) |
-| **Last Review** | `2026-07-25` |
+| **Version** | `1.2.0` |
+| **Status** | **LOCKED** (Production Release) |
+| **Production Site** | [https://myatminhtay.dev/](https://myatminhtay.dev/) |
+| **Last Review** | `2026-09-26` |
 
 ### Area locks
 
 | Area | Status |
 |------|--------|
 | Architecture | **LOCKED** |
-| Design System | **LOCKED** |
+| Design System (Typography floor & Modals) | **LOCKED** |
 | Coding Style | **LOCKED** |
 | AI Rules | **LOCKED** |
-| Database (schema spec) | **LOCKED** |
+| Database (schema spec + details) | **LOCKED** |
 | Components | **LOCKED** |
-| Roadmap | **LOCKED** |
+| Roadmap (Phases -1 through 5 Completed) | **LOCKED** |
 | Security | **LOCKED** |
 | Logging / Storage / Validation / Naming / Toast | **LOCKED** |
-| Testing / SEO / Release / Glossary | **LOCKED** |
+| Testing / SEO (Social Previews & JSON-LD) / Release | **LOCKED** |
 | Foundation infrastructure (config + Support + errors) | **LOCKED** |
+| Production Deployment ([07-deployment](07-deployment.md)) | **LOCKED** |
 
 ---
 
@@ -39,7 +41,7 @@
 3. Architecture or stack changes require ADR → architecture doc → code → changelog → human approval.  
 4. Component implementation statuses may move Planned → Completed without unlocking the design system.  
 5. Roadmap phase statuses may advance as work ships.  
-6. **Next gated work:** Authentication + Database (not started). Await human approval.
+6. **Milestone Reached:** Production live at `https://myatminhtay.dev/`. Future work follows [10-ideas](10-ideas.md).
 
 ---
 

@@ -23,6 +23,9 @@
 
 **Laravel Portfolio CMS** is a personal portfolio website with a private content management system.
 
+- **Production URL:** [https://myatminhtay.dev/](https://myatminhtay.dev/)
+- **Repository:** Production Deployed (Laravel 12 + Bootstrap 5 + MySQL)
+
 It is:
 
 - A public multi-page portfolio (Home, About, Experience, Skills, Projects, Blog, Contact, Resume)

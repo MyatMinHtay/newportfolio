@@ -84,15 +84,19 @@ Bootstrap `--bs-primary` maps to `--pf-primary` (`#3B82F6`), `--bs-secondary` ma
 |--------------|------|--------|
 | Font sans | system-ui stack (`--pf-font-sans`) | — |
 | Font mono | ui-monospace stack | — |
-| `--pf-text-xs` | 0.75rem | meta |
-| `--pf-text-sm` | 0.875rem | help, footer |
-| `--pf-text-base` | 1rem | body |
-| `--pf-text-lg` | 1.125rem | H4 |
-| `--pf-text-xl` | 1.25rem | H3 |
-| `--pf-text-2xl` | 1.5rem | H2 |
-| `--pf-text-3xl` | 1.875rem | H1 |
+| `--pf-text-xs` | 0.75rem (12px) | Mobile minimum floor, compact meta |
+| `--pf-text-sm` | 1rem (16px) | Desktop/PC minimum floor, small, badge, pills |
+| `--pf-text-base` | 1rem (16px) | body |
+| `--pf-text-lg` | 1.125rem (18px) | H4 |
+| `--pf-text-xl` | 1.25rem (20px) | H3 |
+| `--pf-text-2xl` | 1.5rem (24px) | H2 |
+| `--pf-text-3xl` | 1.875rem (30px) | H1 |
 
 Line heights: tight `1.25` (headings), normal `1.6` (body), relaxed `1.75` (long-form later).
+
+### Typography Floor Rules
+- **Desktop / PC Minimum:** `16px` (`1rem`) — All secondary text (`small`, `.small`), status badges (`.badge`), and technology pills (`.pf-tech-pill`) must not fall below 16px on PC screens.
+- **Mobile Minimum:** `12px` (`0.75rem`) — On compact mobile screens (`<= 575.98px` down to `320px`), secondary text and badges may scale down to 12px–13px to prevent overflow while maintaining strict legibility.
 
 One `h1` per page. No novelty display/serif fonts in v1.
 
@@ -195,7 +199,12 @@ Sizes: default forms; `sm` in tables. Component: `<x-button>`.
 
 ## 12. Modals
 
-- Bootstrap modal via `<x-modal>`
+- Bootstrap modal via `<x-modal>` or `@push('modals')`
+- **Placement:** Always render modals in `@stack('modals')` at the root of the document `<body>` outside `<main>` / `.container` to avoid Bootstrap backdrop z-index trapping (`.modal-backdrop` at `z-index: 1050`, modal dialogs at `z-index: 1060`).
+- **Scrolling & Viewport Margins:**
+  - For long, scrollable modals, use `modal-dialog-scrollable`.
+  - Avoid `modal-dialog-centered` on tall dialogs to prevent the modal header and close button from being clipped beneath sticky navigation bars.
+  - Apply top margins (`margin-top: 1.25rem` mobile, `margin-top: 2rem` desktop) so the header remains accessible on all viewport heights.
 - Confirm destructive actions
 - Use built-in Bootstrap transitions only
 

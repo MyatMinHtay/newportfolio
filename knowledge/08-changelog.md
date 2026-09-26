@@ -67,6 +67,45 @@ Keep bullets user/owner-relevant. Link PRs/commits optionally.
 
 ## Entries
 
+## 0.12.0 — 2026-09-26
+
+### Added
+- **Production Deployment Live**:
+  - Successfully verified and launched production site at [https://myatminhtay.dev/](https://myatminhtay.dev/).
+  - Enforced SSL, storage symlinks, optimized config/route/view caching, and verified Google OAuth production callback URL.
+- **Social Media Meta & SEO Upgrade**:
+  - Expanded `<x-layout.seo-meta />` with complete Open Graph parameters (`og:image:secure_url`, `og:image:width`, `og:image:height`, `og:image:type`, `og:locale`).
+  - Added full Twitter / X card support (`twitter:card`, `twitter:url`, `twitter:title`, `twitter:description`, `twitter:image`, `twitter:image:alt`, `twitter:site`, `twitter:creator`).
+  - Added Schema.org microdata (`itemprop="name"`, `itemprop="description"`, `itemprop="image"`) and JSON-LD structured data (`application/ld+json`) for Person/Website with skills & services taxonomy.
+  - Added extensive, high-converting Myanmar web development keywords (Laravel, n8n, Telegram bots, MMQR, deploy, API integration, etc.).
+- **Interactive Service Details & Offerings Overhaul**:
+  - Added `details` column to `services` table supporting full Markdown formatting.
+  - Seeded 7 tailored core services: `Website & Webapp Development`, `n8n Automation Service`, `MMQR Payment Integration`, `Telegram Bot Development`, `API Integration`, `SEO (Search Engine Optimization)`, and `Website Deploy Service`.
+  - Upgraded Homepage Services section with responsive 3-column grid, compact feature highlight pills with checkmarks, and interactive "View Details & Scope" buttons.
+  - Implemented interactive Service Detail Modals (`#serviceModal{id}`) rendering Markdown deliverables (`.pf-prose`) and an "Inquire About This Service" action that pre-fills the contact form subject and smoothly navigates visitors to the contact message box.
+  - Updated Admin Services CRUD to support managing service details and markdown formatting.
+- **Automated Test Suite**:
+  - Added `ServiceDetailTest.php` (4 tests, 22 assertions) and expanded `SeoTest.php` with social metadata assertions.
+  - Test suite expanded to 64 tests (369 assertions) passing at 100%.
+
+### Fixed
+- **Bootstrap Modal Stacking & Backdrop Context**:
+  - Moved all dynamic modals (video modal, service detail modals) into `@stack('modals')` at the root of the document `<body>` in `layouts/public.blade.php`.
+  - Resolved the bug where modals nested inside `<main>` and container elements were trapped under `.modal-backdrop` (`z-index: 1050`), blocking all clicks, scroll, and close buttons.
+  - Added explicit dismiss listeners and ensured keyboard `Escape` key and backdrop clicks smoothly close dialogs.
+- **Modal Header Clipping & Scroll Dynamics**:
+  - Removed `modal-dialog-centered` on tall dialogs, preventing modal headers from being clipped beneath sticky navigation bars.
+  - Applied top-margin spacing (`1.25rem` mobile, `2rem` desktop) and enhanced smooth touch scrolling (`-webkit-overflow-scrolling: touch; overscroll-behavior: contain;`).
+
+### Changed
+- **Typography Floor Enforcement (PC >= 16px / Mobile >= 12px)**:
+  - Enforced global typography scale floors: PC desktop minimum font size is `16px` (`1rem`) and mobile minimum font size is `12px` (`0.75rem`) for viewports `<= 575.98px` down to `320px`.
+  - Updated `small`, `.small`, `.badge`, `.pf-tech-pill`, and `.pf-service-feature-list li` across `app.css` and Blade templates to eliminate overly small text and ensure comfortable legibility on all displays.
+
+### Docs
+- Updated `01-project-overview.md`, `03-database.md`, `05-ui-guidelines.md`, `07-deployment.md`, `09-roadmap.md`, `13-design-system.md`, and `18-seo.md` to reflect production deployment and recent features.
+- Bumped documentation status lock to `1.2.0` in `21-DOCUMENTATION-STATUS.md`.
+
 ## 0.11.0 — 2026-09-20
 
 ### Added

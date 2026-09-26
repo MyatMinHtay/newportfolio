@@ -136,15 +136,28 @@
 
 ---
 
-## Phase 5 — Docs sync + deploy
+## Phase 5 — Docs sync + deploy (Production Release)
 
-**Status:** In Progress
+**Status:** Completed (2026-09-26)
 
-- Sync knowledge with shipped code (component statuses, changelog)
-- Production notes in [07-deployment](07-deployment.md)
-- Release via [19-release-process](19-release-process.md)
+- **Production Live:** [https://myatminhtay.dev/](https://myatminhtay.dev/)
+- **SEO & Social Media Previews:**
+  - Full Open Graph parameters (`og:image:width`, `og:image:height`, `og:image:type`, `og:locale`, secure URL) and namespace prefix declaration for Facebook, Messenger, and Telegram rich link cards.
+  - Twitter Card (`summary_large_image`) and escaped Blade JSON-LD structured data.
+  - High-converting Myanmar web development keywords.
+- **Service Offerings & Interactive Modals:**
+  - Database migration adding `details` (Markdown) to `services`.
+  - 7 production services seeded: Website & Webapp Development, n8n Automation Service, MMQR Payment Integration, Telegram Bot Development, API Integration, SEO, Website Deploy Service.
+  - Interactive service detail modals with auto-filling contact form inquiry action.
+- **UI Architecture & Typography Hardening:**
+  - Root `@stack('modals')` architecture eliminating Bootstrap modal-backdrop trapping.
+  - Viewport margin and scroll fixes preventing modal header clipping under navbar.
+  - Enforced Typography Floor: PC minimum 14px (`0.875rem`), Mobile minimum 12px (`0.75rem`) down to 320px screen width.
+- **Documentation & Verification:**
+  - Documentation updated across deployment, SEO, database, design system, and changelog.
+  - 64 tests (369 assertions) passing 100%.
 
-**Exit criteria:** Launch checklist complete.
+**Exit criteria:** Launch checklist complete. Production live. Met.
 
 ---
 

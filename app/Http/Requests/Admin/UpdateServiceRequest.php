@@ -19,6 +19,7 @@ class UpdateServiceRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:160'],
             'summary' => ['required', 'string', 'max:2000'],
+            'details' => ['nullable', 'string'],
             'icon' => ['required', 'string', 'max:80'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_published' => ['sometimes', 'boolean'],

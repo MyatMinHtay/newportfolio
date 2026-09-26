@@ -162,11 +162,15 @@ Standalone entities (no FKs in v1): Project, Skill, Experience, SocialLink, Sett
 ### `services`
 
 - `title` string
-- `summary` text
-- `icon` string (Bootstrap Icons class, e.g. `bi-layers`)
+- `summary` text (short summary for cards)
+- `details` text nullable (Markdown formatted scope, deliverables, technology stack, and timeline)
+- `icon` string (Bootstrap Icons class, e.g. `bi-layers`, with or without `bi-` prefix)
 - `sort_order` int
 - `is_published` boolean
 - timestamps only (no soft deletes — cheap to recreate)
+- **Model helpers:**
+  - `renderedDetails(): string` — parses `details` Markdown safely into HTML with sanitized output
+  - `highlights(): array` — extracts bullet points from `details` for card preview pills
 
 ### `experiences`
 

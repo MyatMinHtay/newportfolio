@@ -63,11 +63,14 @@ Admin form pages: title + form + cancel/save.
 Top navbar (brand + links + Resume CTA)
 Main content (container)
 Footer (social links + copyright from settings)
+@stack('modals') (Document root modal dialogs)
 ```
 
 Nav items: Home, About, Experience, Skills, Projects, Blog, Contact, Resume.
 
-Mobile: Bootstrap collapse navbar. Keep tap targets comfortable.
+Mobile: Bootstrap collapse navbar. Keep tap targets comfortable. Fully responsive down to 320px minimum screen width.
+
+Modals: Must always be pushed to `@stack('modals')` at the root of `<body>` rather than nested inside `<main>` or layout containers, preventing Bootstrap `.modal-backdrop` stacking context trapping.
 
 Footer data comes from settings + published social links (View Composer recommended).
 
@@ -96,6 +99,9 @@ Do not invent a second admin visual language. Same Bootstrap + tokens as public,
 ## 6. Typography and spacing
 
 - System / clean sans (document exact stack in design system)
+- **Minimum Font Size Floor:**
+  - **Desktop / PC Minimum:** `16px` (`1rem`) for all `small`, `.small`, `.badge`, `.pf-tech-pill`, and secondary meta.
+  - **Mobile Minimum:** `12px` (`0.75rem`) on viewports `<= 575.98px` (strict legibility floor down to `320px`).
 - Comfortable line length for blog posts (~65–75 characters)
 - Consistent vertical rhythm (section gaps via spacing scale)
 - Prefer Bootstrap type utilities; avoid one-off font sizes

@@ -31,20 +31,20 @@
         <!-- Projects Card -->
         <div class="col-sm-6 col-lg-3">
             <x-card class="h-100 shadow-sm border-0">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                    <div>
+                <div class="d-flex align-items-center justify-content-between gap-3 mb-2">
+                    <div class="min-w-0">
                         <span class="text-muted small text-uppercase fw-semibold">Case Studies</span>
                         <h2 class="h3 fw-bold mb-0 mt-1">{{ $stats['projects_count'] }}</h2>
                     </div>
-                    <div class="rounded-circle p-3 bg-primary bg-opacity-10 text-primary fs-4">
+                    <div class="pf-dashboard-stat-icon bg-primary bg-opacity-10 text-primary">
                         <i class="bi bi-folder-fill"></i>
                     </div>
                 </div>
                 <div class="d-flex align-items-center gap-2 pt-2 border-top">
-                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25" style="font-size: 0.75rem;">
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">
                         {{ $stats['published_projects_count'] }} Published
                     </span>
-                    <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25" style="font-size: 0.75rem;">
+                    <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25">
                         {{ $stats['featured_projects_count'] }} Featured
                     </span>
                 </div>
@@ -54,20 +54,20 @@
         <!-- Blog Posts Card -->
         <div class="col-sm-6 col-lg-3">
             <x-card class="h-100 shadow-sm border-0">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                    <div>
+                <div class="d-flex align-items-center justify-content-between gap-3 mb-2">
+                    <div class="min-w-0">
                         <span class="text-muted small text-uppercase fw-semibold">Blog Posts</span>
                         <h2 class="h3 fw-bold mb-0 mt-1">{{ $stats['posts_count'] }}</h2>
                     </div>
-                    <div class="rounded-circle p-3 bg-info bg-opacity-10 text-info fs-4">
+                    <div class="pf-dashboard-stat-icon bg-info bg-opacity-10 text-info">
                         <i class="bi bi-journal-text"></i>
                     </div>
                 </div>
                 <div class="d-flex align-items-center gap-2 pt-2 border-top">
-                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25" style="font-size: 0.75rem;">
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">
                         {{ $stats['published_posts_count'] }} Published
                     </span>
-                    <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25" style="font-size: 0.75rem;">
+                    <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25">
                         {{ $stats['draft_posts_count'] }} Drafts
                     </span>
                 </div>
@@ -77,12 +77,12 @@
         <!-- Skills & Services Card -->
         <div class="col-sm-6 col-lg-3">
             <x-card class="h-100 shadow-sm border-0">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                    <div>
+                <div class="d-flex align-items-center justify-content-between gap-3 mb-2">
+                    <div class="min-w-0">
                         <span class="text-muted small text-uppercase fw-semibold">Skills &amp; Services</span>
                         <h2 class="h3 fw-bold mb-0 mt-1">{{ $stats['skills_count'] + $stats['services_count'] }}</h2>
                     </div>
-                    <div class="rounded-circle p-3 bg-success bg-opacity-10 text-success fs-4">
+                    <div class="pf-dashboard-stat-icon bg-success bg-opacity-10 text-success">
                         <i class="bi bi-stars"></i>
                     </div>
                 </div>
@@ -99,12 +99,12 @@
         <!-- Unread Messages Card -->
         <div class="col-sm-6 col-lg-3">
             <x-card class="h-100 shadow-sm border-0">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                    <div>
+                <div class="d-flex align-items-center justify-content-between gap-3 mb-2">
+                    <div class="min-w-0">
                         <span class="text-muted small text-uppercase fw-semibold">Contact Inbox</span>
                         <h2 class="h3 fw-bold mb-0 mt-1">{{ $stats['unread_messages_count'] }}</h2>
                     </div>
-                    <div class="rounded-circle p-3 bg-warning bg-opacity-10 text-warning fs-4">
+                    <div class="pf-dashboard-stat-icon bg-warning bg-opacity-10 text-warning">
                         <i class="bi bi-envelope-fill"></i>
                     </div>
                 </div>
@@ -122,8 +122,8 @@
     <div class="card mb-4 border-0 shadow-sm" style="background-color: var(--pf-surface); border: 1px solid var(--pf-border) !important;">
         <div class="card-body p-3 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
             <div class="d-flex align-items-center gap-3">
-                <div class="rounded-circle p-2 bg-primary bg-opacity-10 text-primary">
-                    <i class="bi bi-file-earmark-pdf fs-4"></i>
+                <div class="pf-dashboard-stat-icon-sm bg-primary bg-opacity-10 text-primary">
+                    <i class="bi bi-file-earmark-pdf"></i>
                 </div>
                 <div>
                     <div class="fw-semibold small text-uppercase text-muted">Active Public Resume</div>
@@ -175,12 +175,12 @@
                                     <div class="fw-semibold text-truncate small">{{ $project->title }}</div>
                                     <div class="d-flex align-items-center gap-1 mt-1">
                                         @if ($project->is_published)
-                                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25" style="font-size: 0.65rem;">Published</span>
+                                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">Published</span>
                                         @else
-                                            <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25" style="font-size: 0.65rem;">Hidden</span>
+                                            <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25">Hidden</span>
                                         @endif
                                         @if ($project->is_featured)
-                                            <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25" style="font-size: 0.65rem;">Featured</span>
+                                            <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25">Featured</span>
                                         @endif
                                     </div>
                                 </div>
@@ -302,7 +302,7 @@
                                 <div class="me-3 text-truncate">
                                     <div class="fw-semibold d-flex align-items-center gap-2">
                                         @if(!$msg->is_read)
-                                            <span class="badge bg-warning text-dark" style="font-size: 0.65rem;">New</span>
+                                            <span class="badge bg-warning text-dark">New</span>
                                         @endif
                                         <span class="text-truncate" style="max-width: 200px;">{{ $msg->name }}</span>
                                     </div>

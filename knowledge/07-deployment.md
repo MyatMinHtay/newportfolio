@@ -90,29 +90,36 @@ Never commit `.env`. Keep secrets out of `knowledge/` and chat logs when possibl
 
 ## 6. Production checklist
 
-- [ ] `APP_ENV=production`
-- [ ] `APP_DEBUG=false`
-- [ ] Strong `APP_KEY`
-- [ ] HTTPS enforced
-- [ ] `npm run build` artifacts deployed
-- [ ] `php artisan migrate --force`
-- [ ] `php artisan config:cache` / `route:cache` / `view:cache` as appropriate
-- [ ] `storage:link`
-- [ ] Correct file permissions on `storage/` and `bootstrap/cache`
-- [ ] Google OAuth redirect URI matches production URL
-- [ ] Admin user seeded / password rotated
-- [ ] Database backups scheduled
+- [x] **Production Live:** [https://myatminhtay.dev/](https://myatminhtay.dev/)
+- [x] `APP_ENV=production`
+- [x] `APP_DEBUG=false`
+- [x] Strong `APP_KEY` generated
+- [x] HTTPS / SSL certificate enforced across all routes
+- [x] Static assets deployed under `public/assets/` (ADR-014 — no server npm build needed)
+- [x] `php artisan migrate --force` executed with all database migrations
+- [x] `php artisan config:cache` / `php artisan route:cache` / `php artisan view:cache` optimized
+- [x] `php artisan storage:link` symlink established
+- [x] Correct web server file permissions on `storage/` and `bootstrap/cache`
+- [x] Google OAuth redirect URI configured: `https://myatminhtay.dev/admin/auth/google/callback`
+- [x] Admin user initialized and credentials secured
+- [x] Open Graph, Twitter Cards, and canonical URLs tested for Facebook, Messenger, and Telegram
 
 ---
 
-## 7. Future VPS notes
+## 7. Production environment & hosting
 
-When moving beyond XAMPP:
+**Live Domain:** `https://myatminhtay.dev/`
 
-- Nginx or Apache with `public/` as web root
-- PHP-FPM 8.3+
-- Queue worker only if queued jobs are introduced later
-- Scheduler (`cron` → `schedule:run`) if scheduled commands appear
-- Deploy via Git pull + Composer/npm on server, or CI artifact pipeline
-
-Document the chosen host in this file when production exists.
+- **Web Server:** Nginx / Apache with document root pointing strictly to `/public`
+- **PHP Version:** PHP 8.3+ (Laravel 12 compatible)
+- **Database:** MySQL
+- **Asset Pipeline:** Pre-bundled static CSS/JS libraries (`public/assets/libs/`), custom CSS tokens (`public/assets/css/app.css`)
+- **Queue & Cron:**
+  - Standard sync/database queue
+  - Laravel scheduler (`* * * * * cd /path/to/project && php artisan schedule:run >> /dev/null 2>&1`)
+- **Deployment workflow:**
+  1. Pull updates (`git pull origin main` or release tag)
+  2. Install dependencies (`composer install --no-dev --optimize-autoloader`)
+  3. Run migrations (`php artisan migrate --force`)
+  4. Ensure storage linked (`php artisan storage:link`)
+  5. Warm up application cache (`php artisan optimize`)

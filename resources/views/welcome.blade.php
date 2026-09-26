@@ -16,14 +16,14 @@
         <div class="row align-items-center g-4 g-lg-5">
             {{-- Hero Left: Headlines, Pitch & CTAs --}}
             <div class="col-lg-7">
-                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3" style="background-color: var(--pf-surface-muted); border: 1px solid var(--pf-border); font-size: 0.85rem;">
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3" style="background-color: var(--pf-surface-muted); border: 1px solid var(--pf-border); font-size: 1rem;">
                     <span class="pf-status-dot"></span>
                     <span class="fw-medium" style="color: var(--pf-text);">{{ $settings['freelance_status'] ?? 'Available for Projects' }}</span>
                 </div>
 
                 <h1 class="display-4 fw-bolder lh-sm mb-3">
                     Hi, I'm <span style="color: var(--pf-primary);">{{ $settings['site_name'] ?? 'Myat Min Htay' }}</span><br>
-                    <span class="fst-normal" style="font-size: 0.85em; color: var(--pf-text);">{{ $settings['hero_title'] ?? 'Full Stack Website Developer' }}</span>
+                    <span class="fst-normal" style="font-size: 1.15rem; color: var(--pf-text);">{{ $settings['hero_title'] ?? 'Full Stack Website Developer' }}</span>
                 </h1>
 
                 <p class="lead text-muted mb-4" style="max-width: 620px;">
@@ -73,10 +73,10 @@
                 <div class="pf-hero-avatar-wrapper">
                     <img src="{{ asset('assets/img/profile.png') }}" alt="{{ $settings['site_name'] ?? 'Myat Min Htay' }}" class="pf-hero-avatar img-fluid">
                     <div class="pf-hero-floating-badge">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 30px; height: 30px; background-color: var(--pf-primary-subtle); color: var(--pf-primary);">
-                            <i class="bi bi-code-slash" style="font-size: 0.85rem;"></i>
+                        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 36px; height: 36px; background-color: var(--pf-primary-subtle); color: var(--pf-primary);">
+                            <i class="bi bi-code-slash" style="font-size: 1rem;"></i>
                         </div>
-                        <span class="fw-semibold text-nowrap" style="color: var(--pf-text); font-size: 0.8125rem;">
+                        <span class="fw-semibold text-nowrap" style="color: var(--pf-text); font-size: 1rem;">
                             Laravel &bull; PHP &bull; MySQL
                         </span>
                     </div>
@@ -225,19 +225,51 @@
         <section class="pf-page-section py-5" id="services">
             <div class="text-center mb-5">
                 <span class="badge px-3 py-1 mb-2" style="background-color: var(--pf-primary-subtle); color: var(--pf-primary);">What I offer</span>
-                <h2 class="h3 fw-bold mb-2">Services</h2>
-                <p class="text-muted" style="max-width: 640px; margin: 0 auto;">Laravel product work I take on — from shipping the app to keeping it running.</p>
+                <h2 class="h3 fw-bold mb-2">Services &amp; Solutions</h2>
+                <p class="text-muted" style="max-width: 680px; margin: 0 auto;">Full-stack development, visual automations, local payment integrations, and reliable production operations tailored for your business.</p>
             </div>
 
             <div class="row g-4">
                 @foreach($services as $service)
-                    <div class="col-md-6 col-lg-3">
+                    @php
+                        $highlights = $service->highlights();
+                    @endphp
+                    <div class="col-md-6 col-lg-4">
                         <article class="pf-service-card h-100">
-                            <div class="pf-service-icon" aria-hidden="true">
-                                <i class="bi {{ $service->iconClass() }}"></i>
+                            <div>
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <div class="pf-service-icon mb-0" aria-hidden="true">
+                                        <i class="bi {{ $service->iconClass() }}"></i>
+                                    </div>
+                                    <span class="badge rounded-pill" style="background-color: var(--pf-primary-subtle); color: var(--pf-primary);">
+                                        Service #{{ $service->sort_order ?: $loop->iteration }}
+                                    </span>
+                                </div>
+
+                                <h3 class="h5 fw-bold mb-2" style="color: var(--pf-text);">{{ $service->title }}</h3>
+                                <p class="text-muted small mb-3">{{ $service->summary }}</p>
+
+                                @if(!empty($highlights))
+                                    <ul class="list-unstyled small mb-4 pf-service-feature-list">
+                                        @foreach(array_slice($highlights, 0, 3) as $highlight)
+                                            <li class="d-flex align-items-start gap-2 mb-2 text-muted">
+                                                <i class="bi bi-check2-circle text-primary mt-1 flex-shrink-0"></i>
+                                                <span class="text-truncate-2">{{ $highlight }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
                             </div>
-                            <h3 class="h5 fw-bold mb-2" style="color: var(--pf-text);">{{ $service->title }}</h3>
-                            <p class="text-muted small mb-0">{{ $service->summary }}</p>
+
+                            <div class="pt-3 border-top mt-auto">
+                                <button type="button" 
+                                        class="btn btn-sm btn-outline-primary w-100 d-inline-flex align-items-center justify-content-center gap-1 py-2" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#serviceModal{{ $service->id }}">
+                                    <span>View Details &amp; Scope</span>
+                                    <i class="bi bi-arrow-right"></i>
+                                </button>
+                            </div>
                         </article>
                     </div>
                 @endforeach
@@ -525,13 +557,16 @@
         </div>
     </section>
 
+@endsection
+
+@push('modals')
     {{-- ==========================================
          VIDEO DEMO MODAL (Vimeo / YouTube Player)
          ========================================== --}}
-    <div class="modal fade" id="projectVideoModal" tabindex="-1" aria-labelledby="projectVideoModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content border-0 shadow-lg" style="background-color: var(--pf-surface); border: 1px solid var(--pf-border) !important;">
-                <div class="modal-header border-bottom py-3">
+    <div class="modal fade pf-modal" id="projectVideoModal" tabindex="-1" aria-labelledby="projectVideoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg my-3 my-sm-4 mx-2 mx-sm-auto">
+            <div class="modal-content border-0 shadow-lg pf-service-modal-content">
+                <div class="modal-header border-bottom px-3 px-sm-4 py-3 d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center gap-2">
                         <i class="bi bi-play-circle-fill text-primary fs-5"></i>
                         <h3 class="modal-title h6 fw-bold mb-0" id="projectVideoModalLabel">Project Video Demo</h3>
@@ -546,11 +581,107 @@
             </div>
         </div>
     </div>
-@endsection
+
+    {{-- ==========================================
+         SERVICE DETAIL MODALS (Responsive 320px+)
+         ========================================== --}}
+    @if(isset($services) && $services->isNotEmpty())
+        @foreach($services as $service)
+            <div class="modal fade pf-modal pf-service-modal" id="serviceModal{{ $service->id }}" tabindex="-1" aria-labelledby="serviceModalLabel{{ $service->id }}" aria-hidden="true" data-bs-backdrop="true" data-bs-keyboard="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-lg my-3 my-sm-4 mx-2 mx-sm-auto">
+                    <div class="modal-content border-0 shadow-lg pf-service-modal-content">
+                        {{-- Modal Header --}}
+                        <div class="modal-header border-bottom px-3 px-sm-4 py-3 d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-2 gap-sm-3 pe-2 overflow-hidden">
+                                <div class="pf-service-icon-sm flex-shrink-0">
+                                    <i class="bi {{ $service->iconClass() }}" aria-hidden="true"></i>
+                                </div>
+                                <div class="text-truncate">
+                                    <h3 class="modal-title h5 fw-bold mb-0 text-truncate" id="serviceModalLabel{{ $service->id }}">{{ $service->title }}</h3>
+                                    <span class="text-muted small d-none d-sm-inline">Scope, Features &amp; Deliverables</span>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-close flex-shrink-0 ms-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        {{-- Modal Body --}}
+                        <div class="modal-body px-3 px-sm-4 py-3 py-sm-4 pf-service-modal-body">
+                            {{-- Overview Callout Box --}}
+                            <div class="pf-service-overview-box p-3 rounded-3 mb-4">
+                                <div class="small fw-bold text-uppercase tracking-wider text-primary mb-1">
+                                    <i class="bi bi-info-circle-fill me-1"></i> Service Overview
+                                </div>
+                                <p class="mb-0 text-muted pf-service-overview-text">{{ $service->summary }}</p>
+                            </div>
+
+                            @if(filled($service->details))
+                                <div class="pf-prose pf-service-prose">
+                                    {!! $service->renderedDetails() !!}
+                                </div>
+                            @endif
+                        </div>
+
+                        {{-- Modal Footer --}}
+                        <div class="modal-footer border-top px-3 px-sm-4 py-3 d-flex flex-column flex-sm-row justify-content-between align-items-stretch align-items-sm-center gap-2">
+                            <button type="button" class="btn btn-outline-secondary order-2 order-sm-1" data-bs-dismiss="modal">
+                                <i class="bi bi-x-lg me-1"></i> Close
+                            </button>
+                            <button type="button" 
+                                    class="btn btn-primary d-inline-flex align-items-center justify-content-center gap-2 js-inquire-service-btn order-1 order-sm-2" 
+                                    data-service-title="{{ $service->title }}" 
+                                    data-bs-dismiss="modal">
+                                <i class="bi bi-chat-dots-fill"></i>
+                                <span>Inquire About This Service</span>
+                                <i class="bi bi-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @endif
+@endpush
 
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // 0. Explicit modal dismiss listener for robustness
+        document.querySelectorAll('.modal [data-bs-dismiss="modal"]').forEach(function (button) {
+            button.addEventListener('click', function () {
+                const modalEl = this.closest('.modal');
+                if (modalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                    const instance = bootstrap.Modal.getInstance(modalEl);
+                    if (instance) {
+                        instance.hide();
+                    }
+                }
+            });
+        });
+
+        // 1. Service Inquiry Button Handler
+        document.querySelectorAll('.js-inquire-service-btn').forEach(function (button) {
+            button.addEventListener('click', function () {
+                const serviceTitle = this.getAttribute('data-service-title');
+                const subjectInput = document.getElementById('contact_subject');
+                const messageInput = document.getElementById('contact_message');
+                const contactSection = document.getElementById('contact');
+
+                if (subjectInput) {
+                    subjectInput.value = 'Inquiry: ' + serviceTitle;
+                }
+                if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth' });
+                }
+                if (messageInput) {
+                    setTimeout(function () {
+                        messageInput.focus();
+                        if (!messageInput.value) {
+                            messageInput.value = 'Hi Myat Min Htay,\n\nI would like to inquire about your "' + serviceTitle + '" service for my project.\n\n';
+                        }
+                    }, 400);
+                }
+            });
+        });
         // 1. Projects Category Filtering
         const filterButtons = document.querySelectorAll('.pf-filter-btn');
         const projectItems = document.querySelectorAll('.project-item');

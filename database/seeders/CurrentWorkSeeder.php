@@ -558,34 +558,141 @@ MD,
 
     private function seedServices(): void
     {
+        Service::query()
+            ->whereIn('title', [
+                'Laravel web applications',
+                'Custom admin & CMS',
+                'Auth, bots & cloud',
+                'Production & Linux care',
+            ])
+            ->delete();
+
         $services = [
             [
-                'title' => 'Laravel web applications',
-                'summary' => 'Production Laravel products: reading platforms, booking sites, and custom business apps with MySQL, queues, and admin tools.',
-                'icon' => 'bi-layers',
+                'title' => 'Website & Webapp Development',
+                'summary' => 'Production-grade custom websites, business web applications, reading platforms, and CMS panels built with Laravel, PHP, MySQL, and responsive modern UI.',
+                'icon' => 'bi-window-desktop',
                 'sort_order' => 1,
                 'is_published' => true,
+                'details' => <<<'MD'
+### What I Deliver
+Full-lifecycle web application engineering — from initial architecture and database schema design to responsive frontend development and production maintenance.
+
+### Key Capabilities & Features
+- **Custom Business Systems**: Enterprise web portals, content management systems (CMS), novel/comic platforms, booking systems, inventory & POS solutions.
+- **Modern Responsive UI**: Mobile-first layouts built with Bootstrap 5 and clean vanilla JS, ensuring rapid loading across mobile, tablet, and desktop screens.
+- **Robust Backend Architecture**: Clean Laravel MVC architecture, Eloquent ORM, background queues, and optimized MySQL database design.
+- **Security by Default**: Protection against CSRF, SQL Injection, XSS, rate limiting on sensitive routes, and secure authentication flows.
+- **Scalable Performance**: Database query optimization, eager loading, and asset caching for snappy user experiences.
+MD,
             ],
             [
-                'title' => 'Custom admin & CMS',
-                'summary' => 'Private Bootstrap admin panels for content, users, and operations — the same CMS style this portfolio uses.',
-                'icon' => 'bi-speedometer2',
+                'title' => 'n8n Automation Service',
+                'summary' => 'Streamline business workflows and eliminate repetitive manual tasks with self-hosted or cloud n8n automation pipelines, webhooks, and cross-platform integrations.',
+                'icon' => 'bi-gear-wide-connected',
                 'sort_order' => 2,
                 'is_published' => true,
+                'details' => <<<'MD'
+### What I Deliver
+Custom visual workflow automations powered by n8n that connect your applications, databases, and third-party tools into automated data pipelines.
+
+### Key Capabilities & Features
+- **Multi-App Workflow Pipelines**: Automatically sync data between your web applications, Google Sheets, Telegram, CRM, and databases.
+- **Webhook-Triggered Workflows**: Real-time event triggers for customer inquiries, new orders, payments, and system alerts.
+- **Scheduled Automated Jobs**: Automated daily/weekly reports, data scraping, backup checks, and periodic data synchronization.
+- **Self-Hosted n8n VPS Setup**: Production deployment of n8n on Linux VPS with Docker, SSL certificates, automatic restarts, and 24/7 reliability.
+- **Zero Ongoing SaaS Fees**: Run self-hosted n8n to avoid high monthly subscription charges from proprietary automation tools like Zapier or Make.
+MD,
             ],
             [
-                'title' => 'Auth, bots & cloud',
-                'summary' => 'Google/Socialite login, Telegram bots, AWS S3 media, and third-party APIs wired into Laravel.',
-                'icon' => 'bi-plug',
+                'title' => 'MMQR Payment Integration',
+                'summary' => 'Seamless Myanmar payment solutions including automated MMQR generation, KBZPay, WavePay, AYA Pay, and automated order confirmation.',
+                'icon' => 'bi-qr-code-scan',
                 'sort_order' => 3,
                 'is_published' => true,
+                'details' => <<<'MD'
+### What I Deliver
+Complete local payment integration enabling Myanmar users to pay effortlessly via mobile banking and mobile wallets, drastically boosting checkout conversions.
+
+### Key Capabilities & Features
+- **Dynamic MMQR Code Generation**: Generate merchant standard MMQR codes for immediate scan-and-pay transactions directly on web and mobile screens.
+- **Mobile Wallet Integration**: Direct support for KBZPay, WavePay, AYA Pay, and CB Pay wallet flows.
+- **Payment Gateway Gateways**: Production integration with hybrid gateways like MyanMyanPay (Server SDK initialization + Browser checkout).
+- **Manual Slip Verification Workflow**: Secure customer payment slip image uploads with an administrative review and one-click order approval dashboard.
+- **Real-Time Settlement & Receipts**: Automated transaction logs, instant balance/credit top-ups, and customer payment receipt generation.
+MD,
             ],
             [
-                'title' => 'Production & Linux care',
-                'summary' => 'Deploy, backups, and day-to-day Linux/server care so a Laravel app stays online after launch.',
-                'icon' => 'bi-hdd-network',
+                'title' => 'Telegram Bot Development',
+                'summary' => 'Interactive and automated Telegram bots for customer support, order notifications, slip verification, and automated channel/group operations.',
+                'icon' => 'bi-telegram',
                 'sort_order' => 4,
                 'is_published' => true,
+                'details' => <<<'MD'
+### What I Deliver
+Tailored Telegram bot solutions that turn Telegram into a direct customer communication, notification, and operational channel for your business.
+
+### Key Capabilities & Features
+- **Real-Time Alert & Notification Bots**: Immediate Telegram group or channel alerts whenever orders, inquiries, or server errors occur.
+- **Interactive Menu & Command Bots**: Custom inline keyboards, multi-step conversational flows, and deep-link command processing.
+- **Payment & Order Verification Bots**: Readers/customers can submit payment slips or transaction IDs directly via Telegram for automated/manual confirmation.
+- **Channel & Community Automation**: Automated membership verification, scheduled broadcasts, and media distribution.
+- **Reliable Webhook Architecture**: Fast webhook processing hosted on VPS or serverless setups with 99.9% uptime and zero polling delays.
+MD,
+            ],
+            [
+                'title' => 'API Integration',
+                'summary' => 'Connect with external web services, third-party REST APIs, payment providers, cloud storage, and build clean custom API endpoints.',
+                'icon' => 'bi-plug',
+                'sort_order' => 5,
+                'is_published' => true,
+                'details' => <<<'MD'
+### What I Deliver
+Seamless integration between disparate software services and modern RESTful API design for external partners, mobile apps, or frontend clients.
+
+### Key Capabilities & Features
+- **Third-Party API Connections**: Payment gateways, SMS OTP providers, Google OAuth / Socialite, and external database synchronizations.
+- **Cloud Storage Integrations**: AWS S3 and Cloudflare R2 media storage with secure signed URLs, bucket policies, and asset CDN delivery.
+- **Custom REST API Endpoints**: Clean, standards-compliant JSON APIs built with Laravel, including token-based authentication (Sanctum) and rate limiting.
+- **Webhook Handling & Verification**: Secure webhook receiver endpoints with cryptographic signature validation and idempotency handling.
+- **API Documentation & Testing**: Documented endpoints with Postman collections and automated feature tests.
+MD,
+            ],
+            [
+                'title' => 'SEO (Search Engine Optimization)',
+                'summary' => 'Technical and on-page SEO optimization to maximize your site\'s organic Google ranking, Core Web Vitals speed, and rich social media link previews.',
+                'icon' => 'bi-search',
+                'sort_order' => 6,
+                'is_published' => true,
+                'details' => <<<'MD'
+### What I Deliver
+End-to-end technical and on-page SEO optimization that helps your website rank higher on Google, load faster, and look stunning when shared across social media.
+
+### Key Capabilities & Features
+- **Technical SEO Audit & Fixes**: Dynamic XML sitemaps (`sitemap.xml`), optimized `robots.txt`, canonical tags, and clean semantic HTML hierarchy.
+- **Social Media Open Graph & Twitter Cards**: Comprehensive meta tags ensuring rich preview cards on Facebook, Messenger, Telegram, WhatsApp, and Twitter/X.
+- **Structured Data (JSON-LD)**: Schema.org markup for Person, Organization, WebSite, and Articles to qualify for Google rich search results.
+- **Performance & Core Web Vitals**: Image compression (WebP), asset minification, browser caching, and fast server response times (TTFB).
+- **Search Console & Analytics Integration**: Google Search Console sitemap submission, indexing verification, and privacy-friendly visitor analytics.
+MD,
+            ],
+            [
+                'title' => 'Website Deploy Service',
+                'summary' => 'Production deployment on Linux VPS or Cloud hosting with SSL certificates, Nginx/Apache configuration, automated backups, and 24/7 uptime care.',
+                'icon' => 'bi-cloud-arrow-up',
+                'sort_order' => 7,
+                'is_published' => true,
+                'details' => <<<'MD'
+### What I Deliver
+Full production deployment services to get your Laravel or web application safely online, fast, and resilient against downtime.
+
+### Key Capabilities & Features
+- **VPS Provisioning & Hardening**: Ubuntu/Debian server setup, PHP 8.3+, MySQL database tuning, and Nginx/Apache virtual host configuration.
+- **Free SSL Installation & Auto-Renewal**: Let's Encrypt SSL certificates (HTTPS) with automated cron-based renewal.
+- **Domain & DNS Management**: Custom domain connection, DNS record setup, and Cloudflare CDN & DDoS protection configuration.
+- **Production Cache & Storage Tuning**: Application optimization via config/route/view caching, storage symlinks, and directory permissions hardening.
+- **Backups & Security Monitoring**: Automated database backups, UFW firewall setup, fail2ban brute-force protection, and disk usage monitoring.
+MD,
             ],
         ];
 
@@ -604,6 +711,14 @@ MD,
         Setting::set(
             'about_bio',
             'I started web development in 2018 and now ship Laravel products in production. My largest system is MorningStar Translation MM. Freelance work includes Dream Comic (AWS S3) and KM Explorer. I also run an experimental Dev Toolkit preview. I care about clear architecture, operations, and long-lived code.'
+        );
+        Setting::set(
+            'meta_keywords',
+            'Myat Min Htay, Jerry M2, Full Stack Developer Myanmar, Laravel Developer Myanmar, PHP Developer, Web Developer Mandalay, Web Developer Yangon, Website Development Myanmar, Freelance Web Developer Myanmar, n8n Automation Service, Workflow Automation Myanmar, Telegram Bot Developer, Telegram Bot Integration, API Integration, REST API Myanmar, MMQR Payment Integration, KBZPay Integration, WavePay Integration, MyanMyanPay, Payment Gateway Myanmar, Website Deploy Service, VPS Setup, Linux Server Management, Cloudflare SSL, SEO Service Myanmar, Search Engine Optimization, Website Speed Optimization, Custom CMS Development, Web Application Developer, Responsive Web Design, Bootstrap 5, MySQL Database, E-commerce Website Myanmar'
+        );
+        Setting::set(
+            'meta_description',
+            'Portfolio of Myat Min Htay — Full Stack Website Developer specializing in Laravel, PHP, n8n Automation, Telegram Bots, MMQR Payment Gateways, and Production Cloud Deployment.'
         );
 
         Experience::updateOrCreate(

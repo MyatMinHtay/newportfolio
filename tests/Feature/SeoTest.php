@@ -147,7 +147,16 @@ class SeoTest extends TestCase
         $response->assertSee('<meta name="robots" content="index, follow, max-image-preview:large">', false);
         $response->assertSee('<link rel="canonical" href="'.route('home').'">', false);
         $response->assertSee('<meta property="og:type" content="website">', false);
+        $response->assertSee('<meta property="og:image:secure_url"', false);
+        $response->assertSee('<meta property="og:image:width" content="1200">', false);
+        $response->assertSee('<meta property="og:image:height" content="630">', false);
         $response->assertSee('<meta name="twitter:card" content="summary_large_image">', false);
+        $response->assertSee('<meta name="twitter:url" content="'.route('home').'">', false);
+        $response->assertSee('<meta name="twitter:title"', false);
+        $response->assertSee('<meta name="twitter:description"', false);
+        $response->assertSee('<meta name="twitter:image"', false);
+        $response->assertSee('"@context": "https://schema.org"', false);
+        $response->assertSee('"@type": "Person"', false);
     }
 
     public function test_admin_can_update_seo_settings(): void

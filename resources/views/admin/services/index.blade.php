@@ -36,6 +36,11 @@
                             <div class="d-flex align-items-center gap-2">
                                 <i class="bi {{ $service->iconClass() }} text-primary fs-5" aria-hidden="true"></i>
                                 <span class="fw-semibold">{{ $service->title }}</span>
+                                @if(filled($service->details))
+                                    <span class="badge bg-light text-primary border border-primary-subtle" style="font-size: 0.65rem;">
+                                        <i class="bi bi-file-text"></i>
+                                    </span>
+                                @endif
                             </div>
                             @if ($service->is_published)
                                 <x-badge variant="success">Published</x-badge>
@@ -80,7 +85,14 @@
                             <tr>
                                 <td><i class="bi {{ $service->iconClass() }}" aria-hidden="true"></i></td>
                                 <td>
-                                    <div class="fw-semibold">{{ $service->title }}</div>
+                                    <div class="fw-semibold d-flex align-items-center gap-2">
+                                        {{ $service->title }}
+                                        @if(filled($service->details))
+                                            <span class="badge bg-light text-primary border border-primary-subtle" style="font-size: 0.7rem;">
+                                                <i class="bi bi-file-text me-1"></i> Details
+                                            </span>
+                                        @endif
+                                    </div>
                                     <div class="small text-muted text-truncate" style="max-width: 420px;">{{ $service->summary }}</div>
                                 </td>
                                 <td>

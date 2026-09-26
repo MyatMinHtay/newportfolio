@@ -3,7 +3,7 @@
         <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="{{ url('/') }}#home">
             <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" width="32" height="32" class="rounded" onerror="this.style.display='none'">
             <span>Myat Min Htay</span>
-            <span class="d-none d-sm-inline-flex align-items-center gap-1 badge rounded-pill ms-1" style="background-color: var(--pf-surface-muted); color: var(--pf-text); border: 1px solid var(--pf-border); font-size: 0.75rem; font-weight: 500;">
+            <span class="d-none d-sm-inline-flex align-items-center gap-1 badge rounded-pill ms-1" style="background-color: var(--pf-surface-muted); color: var(--pf-text); border: 1px solid var(--pf-border); font-size: 1rem; font-weight: 500;">
                 <span class="pf-status-dot"></span>
                 <span>Available</span>
             </span>
