@@ -67,6 +67,17 @@ Keep bullets user/owner-relevant. Link PRs/commits optionally.
 
 ## Entries
 
+## 0.12.2 — 2026-10-22
+
+### Changed
+- Public footer no longer links to the admin CMS. The admin URL stays available to anyone who already knows it; the login screen is unchanged.
+- Blog posts can belong to multiple categories. The admin form uses checkboxes, and the public blog filter matches any selected category.
+
+## 0.12.1 — 2026-09-29
+
+### Fixed
+- Admin settings now accept meta keywords up to 2000 characters. The previous 500-character limit blocked the production keyword list (730 characters). The `settings.value` column is already `text`.
+
 ## 0.12.0 — 2026-09-26
 
 ### Added

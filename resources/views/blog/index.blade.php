@@ -65,13 +65,13 @@
 
                             <div class="card-body d-flex flex-column p-4">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
-                                    @if($post->category)
-                                        <span class="badge" style="background-color: var(--pf-primary-subtle); color: var(--pf-primary);">
-                                            {{ $post->category->name }}
-                                        </span>
-                                    @else
-                                        <span></span>
-                                    @endif
+                                    <span class="d-flex flex-wrap gap-1">
+                                        @foreach($post->categories as $category)
+                                            <span class="badge" style="background-color: var(--pf-primary-subtle); color: var(--pf-primary);">
+                                                {{ $category->name }}
+                                            </span>
+                                        @endforeach
+                                    </span>
                                     <span class="small text-muted">
                                         {{ $post->published_at ? $post->published_at->format('M d, Y') : '' }}
                                     </span>

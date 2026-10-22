@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BlogPost extends Model
@@ -14,7 +15,6 @@ class BlogPost extends Model
 
     protected $fillable = [
         'user_id',
-        'category_id',
         'title',
         'slug',
         'excerpt',
@@ -42,9 +42,9 @@ class BlogPost extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function category(): BelongsTo
+    public function categories(): BelongsToMany
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class)->orderBy('categories.name');
     }
 
     public function scopePublished(Builder $query): Builder

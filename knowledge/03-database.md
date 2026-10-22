@@ -39,7 +39,7 @@
 | Tables | snake_case plural | `blog_posts` |
 | Columns | snake_case | `published_at` |
 | Models | PascalCase singular | `BlogPost` |
-| Pivot tables | singular alphabetical | (none in v1) |
+| Pivot tables | singular alphabetical | `blog_post_category` |
 | Migrations | Laravel date prefix + action | `2026_07_24_000001_create_projects_table` |
 
 ---
@@ -94,7 +94,7 @@ Required composite / secondary indexes (v1):
 | `projects` | `(is_published, sort_order)` |
 | `projects` | `(is_featured, is_published)` |
 | `blog_posts` | `(is_published, published_at)` |
-| `blog_posts` | `category_id` |
+| `blog_posts` | via `blog_post_category` |
 | `experiences` | `(is_published, sort_order)` |
 | `skills` | `(is_published, sort_order)` |
 | `social_links` | `(is_published, sort_order)` |
@@ -108,9 +108,8 @@ Required composite / secondary indexes (v1):
 | From | To | Type | On delete |
 |------|----|------|-----------|
 | User → BlogPost | hasMany | `user_id` cascade |
-| Category → BlogPost | hasMany | `category_id` nullOnDelete |
 | BlogPost → User | belongsTo | — |
-| BlogPost → Category | belongsTo | — |
+| BlogPost ↔ Category | belongsToMany | `blog_post_category`; deleting either side removes only the pivot row |
 
 Standalone entities (no FKs in v1): Project, Skill, Experience, SocialLink, Setting, ContactMessage, Resume.
 
@@ -144,7 +143,8 @@ Standalone entities (no FKs in v1): Project, Skill, Experience, SocialLink, Sett
 
 ### `blog_posts`
 
-- `user_id`, `category_id` nullable
+- `user_id` nullable
+- categories through `blog_post_category` (`blog_post_id`, `category_id`, composite primary key)
 - `title`, `slug` unique
 - `excerpt` text nullable
 - `body` longText (Markdown)

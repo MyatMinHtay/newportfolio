@@ -9,17 +9,33 @@
         />
     </div>
     <div class="col-md-4">
-        <label for="category_id" class="form-label fw-semibold">Category</label>
-        <select name="category_id" id="category_id" class="form-select @error('category_id') is-invalid @enderror">
-            <option value="">(No Category)</option>
-            @foreach($categories as $category)
-                <option value="{{ $category->id }}" @selected(old('category_id', $post->category_id ?? null) == $category->id)>
-                    {{ $category->name }}
-                </option>
-            @endforeach
-        </select>
-        @error('category_id')
-            <div class="invalid-feedback">{{ $message }}</div>
+        @php
+            $selectedCategoryIds = array_map('intval', (array) old('category_ids', $post?->categories?->pluck('id')->all() ?? []));
+        @endphp
+        <span class="form-label fw-semibold d-block">Categories</span>
+        <div class="border rounded p-2 @error('category_ids') border-danger @enderror @error('category_ids.*') border-danger @enderror" style="max-height: 180px; overflow: auto;">
+            @forelse($categories as $category)
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="category_ids[]"
+                        id="category_{{ $category->id }}"
+                        value="{{ $category->id }}"
+                        @checked(in_array($category->id, $selectedCategoryIds, true))
+                    >
+                    <label class="form-check-label" for="category_{{ $category->id }}">{{ $category->name }}</label>
+                </div>
+            @empty
+                <p class="small text-muted mb-0">No categories yet. Create one under Categories first.</p>
+            @endforelse
+        </div>
+        <div class="form-text">Select one or more. Leave all unchecked for no category.</div>
+        @error('category_ids')
+            <div class="invalid-feedback d-block">{{ $message }}</div>
+        @enderror
+        @error('category_ids.*')
+            <div class="invalid-feedback d-block">{{ $message }}</div>
         @enderror
     </div>
 </div>

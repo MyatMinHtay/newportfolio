@@ -260,8 +260,8 @@
                                     <div class="fw-semibold text-truncate" style="max-width: 250px;">{{ $post->title }}</div>
                                     <div class="small text-muted">
                                         {{ $post->published_at ? $post->published_at->format('M d, Y') : 'Draft' }}
-                                        @if($post->category)
-                                            &bull; {{ $post->category->name }}
+                                        @if($post->categories->isNotEmpty())
+                                            &bull; {{ $post->categories->pluck('name')->join(', ') }}
                                         @endif
                                     </div>
                                 </div>

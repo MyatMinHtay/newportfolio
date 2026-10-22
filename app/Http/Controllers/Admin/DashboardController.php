@@ -35,7 +35,7 @@ class DashboardController extends Controller
 
         $activeResume = \App\Models\Resume::where('is_active', true)->first();
         $recentProjects = Project::ordered()->take(5)->get();
-        $recentPosts = BlogPost::with('category')->orderByDesc('id')->take(5)->get();
+        $recentPosts = BlogPost::with('categories')->orderByDesc('id')->take(5)->get();
         $recentMessages = ContactMessage::orderByDesc('id')->take(5)->get();
 
         return view('admin.dashboard', compact('stats', 'activeResume', 'recentProjects', 'recentPosts', 'recentMessages'));

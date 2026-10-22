@@ -43,6 +43,7 @@ Only **Accepted** ADRs bind implementation. Superseding requires a new ADR that 
 16. [ADR-016](#adr-016-toastify-global-notifications)
 17. [ADR-017](#adr-017-foundation-infrastructure-conventions)
 18. [ADR-018](#adr-018-services-as-a-first-class-content-table)
+19. [ADR-019](#adr-019-blog-posts-belong-to-many-categories)
 
 ---
 
@@ -343,9 +344,25 @@ Only **Accepted** ADRs bind implementation. Superseding requires a new ADR that 
 
 ---
 
+## ADR-019 Blog posts belong to many categories
+
+**Decision:** A blog post may have zero or more categories through the `blog_post_category` pivot. `blog_posts.category_id` is removed. Existing single categories are copied into the pivot by the migration. Deleting a category or a post removes only the pivot rows.
+
+**Reason:** The owner needs one article filed under more than one topic. A single nullable foreign key cannot represent that.
+
+**Alternative:** Keep `category_id` as a primary category and add extra categories beside it. Rejected because two sources of truth drift.
+
+**Trade-offs:** Admin form uses checkboxes instead of one select. Public category filters match any attached category.
+
+**Future Impact:** Do not reintroduce `blog_posts.category_id`.
+
+**Status:** Accepted
+
+---
+
 ## Adding new ADRs
 
-1. Use next number `ADR-019`, …
+1. Use next number `ADR-020`, …
 2. Set **Status: Proposed** until human accepts → **Accepted**
 3. Update [02-architecture](02-architecture.md) if behavior changes
 4. Changelog entry

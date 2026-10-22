@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\BlogPost;
-use App\Models\Category;
 use App\Models\Project;
 use App\Models\Setting;
 use App\Models\User;
@@ -57,8 +56,6 @@ class SeoTest extends TestCase
     public function test_sitemap_xml_contains_core_and_published_content_only(): void
     {
         $user = User::factory()->create(['is_admin' => true]);
-        $category = Category::create(['name' => 'Architecture', 'slug' => 'architecture']);
-
         $publishedProject = Project::create([
             'title' => 'Live Commerce Platform',
             'slug' => 'live-commerce-platform',
@@ -79,7 +76,6 @@ class SeoTest extends TestCase
 
         $publishedPost = BlogPost::create([
             'user_id' => $user->id,
-            'category_id' => $category->id,
             'title' => 'Mastering Laravel Service Containers',
             'slug' => 'mastering-laravel-service-containers',
             'excerpt' => 'Deep dive into DI container.',
@@ -90,7 +86,6 @@ class SeoTest extends TestCase
 
         $draftPost = BlogPost::create([
             'user_id' => $user->id,
-            'category_id' => $category->id,
             'title' => 'Draft Ideas for Future Stack',
             'slug' => 'draft-ideas-for-future-stack',
             'excerpt' => 'Draft only.',

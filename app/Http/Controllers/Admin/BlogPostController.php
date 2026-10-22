@@ -18,7 +18,7 @@ class BlogPostController extends Controller
     public function index(Request $request): View
     {
         $status = $request->query('status');
-        $query = BlogPost::query()->with(['category', 'user']);
+        $query = BlogPost::query()->with(['categories', 'user']);
 
         if ($status === 'published') {
             $query->where('is_published', true);
@@ -65,7 +65,7 @@ class BlogPostController extends Controller
 
     public function store(StoreBlogPostRequest $request): RedirectResponse
     {
-        $data = $request->safe()->except('cover_image');
+        $data = $request->safe()->except(['cover_image', 'category_ids']);
         $data['user_id'] = auth()->id();
         $data['slug'] = $request->filled('slug')
             ? Str::slug($request->input('slug'))
@@ -80,7 +80,8 @@ class BlogPostController extends Controller
             $data['cover_image'] = PublicUpload::storeImage($request->file('cover_image'), 'blog/covers');
         }
 
-        BlogPost::create($data);
+        $post = BlogPost::create($data);
+        $post->categories()->sync($request->validated('category_ids') ?? []);
 
         return redirect()
             ->route('admin.posts.index')
@@ -96,7 +97,7 @@ class BlogPostController extends Controller
 
     public function update(UpdateBlogPostRequest $request, BlogPost $post): RedirectResponse
     {
-        $data = $request->safe()->except('cover_image');
+        $data = $request->safe()->except(['cover_image', 'category_ids']);
         $data['slug'] = $request->filled('slug')
             ? Str::slug($request->input('slug'))
             : Str::slug($request->input('title'));
@@ -112,6 +113,7 @@ class BlogPostController extends Controller
         }
 
         $post->update($data);
+        $post->categories()->sync($request->validated('category_ids') ?? []);
 
         return redirect()
             ->route('admin.posts.index')

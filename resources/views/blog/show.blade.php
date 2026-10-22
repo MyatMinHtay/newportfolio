@@ -6,8 +6,8 @@
     @section('og_image', $post->cover_image_url)
 @endif
 @section('og_type', 'article')
-@if($post->category)
-    @section('meta_keywords', $post->category->name . ', Blog, ' . \App\Models\Setting::get('meta_keywords', ''))
+@if($post->categories->isNotEmpty())
+    @section('meta_keywords', $post->categories->pluck('name')->join(', ') . ', Blog, ' . \App\Models\Setting::get('meta_keywords', ''))
 @endif
 
 @section('content')
@@ -30,11 +30,11 @@
         {{-- Post Header --}}
         <header class="mb-5 pb-3 border-bottom text-center" style="border-color: var(--pf-border) !important;">
             <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 mb-3">
-                @if($post->category)
-                    <a href="{{ route('blog.index', ['category' => $post->category->slug]) }}" class="badge text-decoration-none px-3 py-1" style="background-color: var(--pf-primary-subtle); color: var(--pf-primary);">
-                        {{ $post->category->name }}
+                @foreach($post->categories as $category)
+                    <a href="{{ route('blog.index', ['category' => $category->slug]) }}" class="badge text-decoration-none px-3 py-1" style="background-color: var(--pf-primary-subtle); color: var(--pf-primary);">
+                        {{ $category->name }}
                     </a>
-                @endif
+                @endforeach
                 <span class="small text-muted">
                     <i class="bi bi-calendar3 me-1"></i>
                     {{ $post->published_at ? $post->published_at->format('F d, Y') : 'Draft' }}

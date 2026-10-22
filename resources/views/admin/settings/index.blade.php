@@ -94,7 +94,7 @@
                         name="meta_keywords"
                         label="Meta Keywords"
                         :value="$settings['meta_keywords'] ?? ''"
-                        help="Comma-separated keywords (e.g. Web Developer, Laravel, PHP, Portfolio)."
+                        help="Comma-separated keywords, up to 2000 characters (e.g. Web Developer, Laravel, PHP, Portfolio)."
                     />
 
                     <div class="row g-3">

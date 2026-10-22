@@ -58,15 +58,20 @@ class PublicContentTest extends TestCase
             'slug' => 'backend-engineering',
         ]);
 
+        $security = Category::create([
+            'name' => 'Security',
+            'slug' => 'security',
+        ]);
+
         $post = BlogPost::create([
             'title' => 'Optimizing Eloquent Queries in Production',
             'slug' => 'optimizing-eloquent-queries',
-            'category_id' => $category->id,
             'excerpt' => 'Practical tips on eager loading.',
             'body' => "## Eager Loading\n\nAlways use `with()` to prevent N+1 queries.",
             'is_published' => true,
             'published_at' => now()->subDay(),
         ]);
+        $post->categories()->sync([$category->id, $security->id]);
 
         // Blog index
         $indexResponse = $this->get(route('blog.index'));
@@ -78,6 +83,11 @@ class PublicContentTest extends TestCase
         $filteredResponse = $this->get(route('blog.index', ['category' => 'backend-engineering']));
         $filteredResponse->assertOk();
         $filteredResponse->assertSee('Optimizing Eloquent Queries in Production');
+
+        $this->get(route('blog.index', ['category' => 'security']))
+            ->assertOk()
+            ->assertSee('Optimizing Eloquent Queries in Production')
+            ->assertSee('Security');
 
         // Single Post
         $postResponse = $this->get(route('blog.show', $post));

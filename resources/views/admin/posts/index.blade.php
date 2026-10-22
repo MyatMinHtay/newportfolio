@@ -50,9 +50,9 @@
                     <div class="pf-mobile-card-item">
                         <div class="d-flex align-items-center justify-content-between mb-1">
                             <div>
-                                @if($post->category)
-                                    <span class="badge bg-light text-dark border me-1">{{ $post->category->name }}</span>
-                                @endif
+                                @foreach($post->categories as $category)
+                                    <span class="badge bg-light text-dark border me-1">{{ $category->name }}</span>
+                                @endforeach
                                 <span class="small text-muted">{{ $post->published_at ? $post->published_at->format('M d, Y') : 'Draft' }}</span>
                             </div>
 
@@ -103,7 +103,7 @@
                     <thead class="table-light">
                         <tr>
                             <th scope="col">Title</th>
-                            <th scope="col">Category</th>
+                            <th scope="col">Categories</th>
                             <th scope="col">Published Date</th>
                             <th scope="col" style="width: 130px;">Status</th>
                             <th scope="col" class="text-end" style="width: 180px;">Actions</th>
@@ -119,11 +119,11 @@
                                     </div>
                                 </td>
                                 <td>
-                                    @if($post->category)
-                                        <span class="badge bg-light text-dark border">{{ $post->category->name }}</span>
-                                    @else
+                                    @forelse($post->categories as $category)
+                                        <span class="badge bg-light text-dark border me-1">{{ $category->name }}</span>
+                                    @empty
                                         <span class="text-muted small">—</span>
-                                    @endif
+                                    @endforelse
                                 </td>
                                 <td class="small text-muted">
                                     {{ $post->published_at ? $post->published_at->format('M d, Y') : 'Draft' }}

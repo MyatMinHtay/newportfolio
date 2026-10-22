@@ -12,7 +12,7 @@ class BlogController extends Controller
     public function index(Request $request): View
     {
         $query = BlogPost::query()
-            ->with(['category', 'user'])
+            ->with(['categories', 'user'])
             ->published()
             ->ordered();
 
@@ -20,7 +20,7 @@ class BlogController extends Controller
         if ($request->filled('category')) {
             $currentCategory = Category::where('slug', $request->query('category'))->first();
             if ($currentCategory) {
-                $query->where('category_id', $currentCategory->id);
+                $query->whereHas('categories', fn ($categoryQuery) => $categoryQuery->where('categories.id', $currentCategory->id));
             }
         }
 
@@ -40,6 +40,8 @@ class BlogController extends Controller
         if (! $post->is_published && ! auth()->user()?->is_admin) {
             abort(404);
         }
+
+        $post->load('categories');
 
         $recentPosts = BlogPost::query()
             ->published()

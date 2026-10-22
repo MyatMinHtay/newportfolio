@@ -62,7 +62,7 @@ Single owner. No multi-tenant SaaS. No visitor accounts.
 | Services | Published offerings (Laravel work, integrations, ops) |
 | Projects | Index + show by slug |
 | Projects | Index + show by slug |
-| Blog | Index + show by slug; optional category filter |
+| Blog | Index + show by slug; optional category filter; a post may have several categories |
 | Contact | Form → `contact_messages` + throttle |
 | Resume | Download active PDF |
 
@@ -172,7 +172,7 @@ Canonical schema detail: [03-database](03-database.md).
 ```mermaid
 erDiagram
     users ||--o{ blog_posts : writes
-    categories ||--o{ blog_posts : categorizes
+    categories }o--o{ blog_posts : categorizes
     projects
     skills
     services
@@ -187,7 +187,7 @@ erDiagram
 |--------|--------------|-------|
 | User | No (stock) | `is_admin`, `google_id`, `avatar` |
 | Project | Yes | `tech_stack` JSON; featured/published |
-| BlogPost | Yes | Markdown `body`; belongs to Category |
+| BlogPost | Yes | Markdown `body`; many categories via `blog_post_category` |
 | Category | No | Blog only |
 | Skill | No | `category` string |
 | Experience | Yes | Null `end_date` = current |

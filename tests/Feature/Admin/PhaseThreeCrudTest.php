@@ -100,6 +100,10 @@ class PhaseThreeCrudTest extends TestCase
             'name' => 'Laravel Insights',
             'slug' => 'laravel-insights',
         ]);
+        $secondCategory = Category::create([
+            'name' => 'PHP',
+            'slug' => 'php',
+        ]);
 
         $png = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==');
         $cover = UploadedFile::fake()->createWithContent('article.png', $png);
@@ -131,7 +135,7 @@ class PhaseThreeCrudTest extends TestCase
             'excerpt' => 'Updated guide.',
             'body' => '## Updated Architecture',
             'is_published' => '0',
-        ])->assertRedirect(route('admin.posts.index'));
+            'category_ids' => [$secondCategory->id],
 
         $this->assertSame('Building High-Performance Laravel APIs — Updated', $post->fresh()->title);
         $this->assertFalse($post->fresh()->is_published);
@@ -139,6 +143,7 @@ class PhaseThreeCrudTest extends TestCase
         // 3. Delete (soft delete)
         $this->actingAs($admin)->delete(route('admin.posts.destroy', $post))
             ->assertRedirect(route('admin.posts.index'));
+        $this->assertSame([$secondCategory->id], $post->fresh()->categories()->pluck('categories.id')->all());
         $this->assertSoftDeleted('blog_posts', ['id' => $post->id]);
     }
 }

@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\BlogPost;
-use App\Models\Category;
 use App\Models\Project;
 use App\Models\Skill;
 use App\Models\User;
@@ -212,16 +211,9 @@ class ProjectGalleryTest extends TestCase
 
     public function test_blog_index_renders_pagination_component(): void
     {
-        $category = Category::create([
-            'name' => 'Backend',
-            'slug' => 'backend',
-        ]);
-
         BlogPost::create([
             'title' => 'Test Post',
             'slug' => 'test-post',
-            'category_id' => $category->id,
-            'summary' => 'Summary of post',
             'body' => 'Post body text',
             'is_published' => true,
             'published_at' => now(),

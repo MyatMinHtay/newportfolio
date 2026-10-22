@@ -11,10 +11,6 @@
                 <a href="#home" class="small text-decoration-none text-muted" style="transition: color var(--pf-duration);">
                     <i class="bi bi-arrow-up-circle me-1"></i> Back to Top
                 </a>
-                <span class="text-muted small">&bull;</span>
-                <a href="{{ route('admin.home') }}" class="small text-decoration-none text-muted">
-                    <i class="bi bi-lock me-1"></i> Admin CMS
-                </a>
             </div>
         </div>
     </div>
