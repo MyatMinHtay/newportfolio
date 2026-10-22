@@ -70,6 +70,7 @@ Minimum relevant keys (names finalized in Phase 0):
 | Key | Purpose |
 |-----|---------|
 | `APP_NAME`, `APP_ENV`, `APP_DEBUG`, `APP_URL` | App identity |
+| `APP_TIMEZONE` | Application clock. Use `Asia/Yangon` |
 | `DB_*` | MySQL |
 | `ADMIN_GOOGLE_EMAIL` | Google OAuth allowlist |
 | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI` | Socialite |

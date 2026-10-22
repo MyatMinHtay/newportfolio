@@ -67,6 +67,11 @@ Keep bullets user/owner-relevant. Link PRs/commits optionally.
 
 ## Entries
 
+## 0.12.3 — 2026-10-22
+
+### Changed
+- Application timezone is Asia/Yangon. MySQL connections use `+06:30`, matching the server clock.
+
 ## 0.12.2 — 2026-10-22
 
 ### Changed
